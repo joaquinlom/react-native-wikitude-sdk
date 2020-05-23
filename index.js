@@ -1,4 +1,4 @@
-import { NativeModules ,requireNativeComponent , NativeModules,findNodeHandle,UIManager} from 'react-native';
+import { NativeModules ,requireNativeComponent ,findNodeHandle,UIManager} from 'react-native';
 import React from 'react';
 const { WikitudeSdk } = NativeModules;
 
