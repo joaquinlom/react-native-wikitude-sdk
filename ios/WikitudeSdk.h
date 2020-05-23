@@ -11,10 +11,10 @@
 #import <React/RCTBridgeModule.h>
 #import <React/RCTViewManager.h>
 #import <AVFoundation/AVFoundation.h>
+#import <WTArchitectView.h>
 #import "WikitudeView.h"
 
-#import <WikitudeSDK/WTArchitectView.h>
-
+@class WikitudeView;
 @interface RNWikitude : RCTViewManager <RCTBridgeModule>
 
 //@property (nonatomic, strong) NSDictionary *defaultOptions;
