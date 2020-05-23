@@ -14,7 +14,7 @@ You need to ensure that the user already give permission before display the wiki
 First install the module via npm and link it up:
 
 ```bash
-npm install react-native-wikitude-sdk
+npm install joaquinlom/react-native-wikitude-sdk
 
 react-native link react-native-wikitude-sdk
 ```

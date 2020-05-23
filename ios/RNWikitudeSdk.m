@@ -6,7 +6,7 @@
 //  Copyright © 2017 Brave Digital. All rights reserved.
 //
 
-#import "RNWikitude.h"
+#import "RNWikitudeSdk.h"
 // import RCTLog
 #if __has_include(<React/RCTLog.h>)
 #import <React/RCTLog.h>
