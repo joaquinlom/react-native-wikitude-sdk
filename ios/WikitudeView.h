@@ -1,7 +1,8 @@
 #import <UIKit/UIKit.h>
-#import <WikitudeSDK/WikitudeSDK.h>
+#import <WikitudeSDK.h>
 #import <React/RCTComponent.h>
-
+#import <WTArchitectView.h>
+#import <WTStartupConfiguration.h>
 
 
 @interface WikitudeView : UIView <WTArchitectViewDelegate>

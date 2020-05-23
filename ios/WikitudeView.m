@@ -1,6 +1,6 @@
 #import "WikitudeView.h"
 
-#import <WikitudeSDK/WikitudeSDK.h>
+#import <WikitudeSDK.h>
 
 
 
@@ -98,26 +98,16 @@
 
     /* To check if the WTArchitectView is currently rendering, the isRunning property can be used */
     if ( ![self.architectView isRunning] ) {
-
-        /* To start WTArchitectView rendering and control the startup phase, the -start:completion method can be used */
-        [self.architectView start:^(WTStartupConfiguration *configuration) {
-
-            /* Use the configuration object to take control about the WTArchitectView startup phase */
-            /* You can e.g. start with an active front camera instead of the default back camera */
-
-            // configuration.captureDevicePosition = AVCaptureDevicePositionFront;
-
-        } completion:^(BOOL isRunning, NSError *error) {
-
+        
+        [self.architectView start:^(WTArchitectStartupConfiguration * _Nonnull configuration) {
             
-            /* The completion block is called right after the internal start method returns. NOTE: In case some requirements are not given, the WTArchitectView might not be started and returns NO for isRunning. To determine what caused the problem, the localized error description can be used. */
-            if ( !isRunning ) {
-                NSLog(@"WTArchitectView could not be started. Reason: %@", [error localizedDescription]);
-            }
-            NSLog(@"Corriendo Completion");
-            
-            
+        } completion:^(BOOL isRunning, NSError * _Nonnull error) {
+                if ( !isRunning ) {
+                               NSLog(@"WTArchitectView could not be started. Reason: %@", [error localizedDescription]);
+                           }
+              NSLog(@"Corriendo Completion");
         }];
+
     }else{
         NSLog(@"No Corriendo");
     }

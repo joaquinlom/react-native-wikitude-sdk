@@ -6,7 +6,7 @@
 //  Copyright © 2017 Brave Digital. All rights reserved.
 //
 
-#import "RNWikitudeSdk.h"
+#import "WikitudeSdk.h"
 // import RCTLog
 #if __has_include(<React/RCTLog.h>)
 #import <React/RCTLog.h>
@@ -16,7 +16,7 @@
 #import "React/RCTLog.h"   // Required when used as a Pod in a Swift project
 #endif
 
-#import <WikitudeSDK/WikitudeSDK.h>
+#import <WikitudeSDK.h>
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventEmitter.h>
 #import <React/RCTUIManager.h>
@@ -93,13 +93,14 @@ RCT_EXPORT_VIEW_PROPERTY(onFailLoading, RCTBubblingEventBlock)
     return root;
 }
 -(void)startWikitudeCamera{
-        [self.architectView start:^(WTStartupConfiguration *configuration) {
+    /*[self.wikitudeView start:^( *) {
         } completion:^(BOOL isRunning, NSError *error) {
             NSLog(@"WTArchitectView could started.");
             if ( !isRunning ) {
                 NSLog(@"WTArchitectView could not be started. Reason: %@", [error localizedDescription]);
             }
         }];
+    */
 }
 - (void)checkCameraPermissions:(void(^)(BOOL granted))callback
 {
@@ -175,9 +176,9 @@ RCT_EXPORT_METHOD(openNewWindow:(NSString *)url hasGeolocation:(BOOL *)geo hasIm
             return;
         }
         
-        ARViewController *arView = [[ARViewController alloc] init];
+        WikitudeView *arView = [[WikitudeView alloc] init];
         arView.url = url;
-        arView.sdkkey = sdkkey;
+        arView.licenseKey = sdkkey;
 
         
         
@@ -216,7 +217,7 @@ RCT_EXPORT_METHOD(openNewWindow:(NSString *)url hasGeolocation:(BOOL *)geo hasIm
 
 - (void)architectView:(WTArchitectView *)architectView didFailToLoadArchitectWorldNavigation:(WTNavigation *)navigation withError:(NSError *)error {
 
-    NSLog(@"En delegate: Architect World from URL '%@' could not be loaded. Reason: %@", navigation.originalURL, [error localizedDescription]);
+    //NSLog(@"En delegate: Architect World from URL '%@' could not be loaded. Reason: %@", navigation.originalURL, [error localizedDescription]);
     
     
     dispatch_async(dispatch_get_main_queue(), ^{
