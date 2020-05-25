@@ -70,6 +70,8 @@ After that completes, you will need to do additional steps for each platform you
 ### iOS
 You need to open the workspace of your project, then add the wikitude Framework as the Wikitude documentation. Also you need to add in the info.plist the neccesary text for the Camera/Location permission
 
+https://stackoverflow.com/questions/24993752/os-x-framework-library-not-loaded-image-not-found
+
 ## Usage
 You can only have one feature enable, the default is all.
 To change the feature you will need to destroy and recreate the component.
