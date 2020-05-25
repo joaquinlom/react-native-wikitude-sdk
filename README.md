@@ -122,6 +122,15 @@ stopRendering() and resumeRendering()
 - onFailLoading(event)
 	handles the event when the experinces has an error loading
 
+##How to use the module
+
+You can check this example app [Github](https://github.com/joaquinlom/react-native-wikitude-sdk-example).
+
+Things to considerate:
+..* On Android you need to set the URL with the method, not only with the props
+..* Check permissions after try to add the View. on future version I will add the logic inside, but as right now, it's mannually
+..* This is work in progress, it's not ready for production, use it as you own risk.
+
 ## ChangeLog
 - 1.0.0
 	First Commit
