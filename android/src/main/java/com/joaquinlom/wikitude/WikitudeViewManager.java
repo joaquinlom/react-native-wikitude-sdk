@@ -233,7 +233,7 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
 
     @ReactProp(name = "licenseKey")
     public void setLicenseKey(WikitudeView view,String licenseKey) {
-        //Log.d("wikitude",licenseKey);
+        Log.d(TAG,"Setting License"+licenseKey);
         //this.wikitude.setLicenseKey(licenseKey);
         view.setLicenseKey(licenseKey);
         // startUpConfig.setLicenseKey( this.licenseKey);
