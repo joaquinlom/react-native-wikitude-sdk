@@ -1,5 +1,4 @@
-package com.reactlibrary;
-
+package com.joaquinlom.wikitude;
 
 import android.Manifest;
 import android.app.Activity;
