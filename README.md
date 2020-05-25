@@ -1,9 +1,7 @@
 # React Native Wikitude Bridge
 
 # Introduction 
-This is a React Native bridge module for [Wikitude](https://www.wikitude.com/) which provides a simple integration to the Wikitude AR SDK.
-At the moment, the module only supports loading AR experiences from Wikitude Studio URLs. These can be local or online locations.
-You would normally export the files from Wikitude Studio and then host them in a directory somewhere yourself. Point your app to that URL and it should load your project.
+This is a React Native bridge module for [Wikitude](https://www.wikitude.com/) which provides a simple integration to the Wikitude AR SDK. 
 
 
 # PERMISSIONS
@@ -70,20 +68,9 @@ After that completes, you will need to do additional steps for each platform you
 	```
 
 ### iOS
-At the moment, iOS integration is not documented. Please contribute to update me! 
-
+You need to open the workspace of your project, then add the wikitude Framework as the Wikitude documentation. Also you need to add in the info.plist the neccesary text for the Camera/Location permission
 
 ## Usage
-
-The module exposes just one function: 
-```typescript
-function startAR(architectWorldURL: string, hasGeolocation:boolean, hasImageRecognition:boolean, hasInstantTracking:boolean, wikitudeSDKKey:string)
-```
-
-
-
-
-## New way to insert Wikitude into the React App
 You can only have one feature enable, the default is all.
 To change the feature you will need to destroy and recreate the component.
 
