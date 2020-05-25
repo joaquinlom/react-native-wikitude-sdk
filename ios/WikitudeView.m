@@ -10,13 +10,8 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if ((self = [super initWithFrame:frame])) {
-        self.architectView = [[WTArchitectView alloc] initWithFrame:frame];
-        
-        /*[self loadArchitectWorldFromURL:[NSURL URLWithString:@"http://spinar-dev.com/wikitude/spinar/principal/index.html"]];*/
-        //self.architectView.delegate = self;
-        [self.architectView setLicenseKey:@"LrkTtevWC8CU1qsUr/eFXWzlLv/Ajke98OBWDALT09i3RxsfsUo6b4Wrs5SyrAeDXnVXGVEUQyqkbpVNnEhQMt6i2L2dwV5fyEV8Atz0REQNr+BmOQc2Zhix3OePMeLTMl8T/JEaiS5AiYlVUKsdyDxTxYQ43c1grzRrm9F2bjtTYWx0ZWRfXyb2NyPwiTu1xEgUJG+QkLL/k7A/SXIBmBlxuaxhwywKPmwRBxLOa0ZRPGFJZMkX+WqhXugh2F6iJKVZ8+5slT80x/Qdnr/2uHNnfBUCufis9nZHjqZqbs/c4ItGHStssOTyHcmeb95I9AwqAEAyWRhhMLjWQW7sf/5BAGdicTgOdxaZ/Y/w2Wpl0wG076xkr22XcUv1cqEqzlaSH6IfOR31ZY+gHUPdao18NXy3Dv10VN8x9vFzz9Qu5OX1AZMT9osLmBKAeWUq+ViHJZQy5GTnTLLEBukBh1zcUO68Pce8LC03N2exIhYCEtZNbv89nDXFw910uukx9sIgSerO1YyBkHuCsKktFXbuAQz7XFjfENd9WZHbf1RRJiO9nevrqzRjezAbth4WnwPX5TfIEnQse90qDZj1Xqewx4RCR2qoySSulwMoIePLutKYcr5Kk4F8nyY9rQM2F5HT82f0f/XrJl++7nQwNO9X6FIYX+8YGda86cCleE9cSH6/tOp0NpNp5pk+dfb5NZDc0OeRBXh4m2YZ34J+NQrXop0U+1ebpVw+1azEd1I="];
-        self.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:[self architectView]];
+        self.architectView = [[WTArchitectView alloc] initWithFrame:frame];        
+        [self addSubview:[self architectView]];   
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveApplicationWillResignActiveNotification:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveApplicationDidBecomeActiveNotification:) name:UIApplicationDidBecomeActiveNotification object:nil];
         
