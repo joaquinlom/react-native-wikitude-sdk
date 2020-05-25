@@ -1,6 +1,7 @@
 import { NativeModules ,requireNativeComponent ,findNodeHandle,UIManager} from 'react-native';
 import React from 'react';
 const { WikitudeSdk } = NativeModules;
+import PropTypes from 'prop-types';
 
 var wikitudeModule = NativeModules.WikitudeModule;
 class WikitudeView extends React.Component {
@@ -97,10 +98,10 @@ class WikitudeView extends React.Component {
      */
     licenseKey: PropTypes.string,
     url: PropTypes.string,
-    worldUrl:PropTypes.string,
     feature: PropTypes.number,
     onJsonReceived: PropTypes.func,
-    onFinishLoading:PropTypes.func
+    onFinishLoading:PropTypes.func,
+    onFailLoading:PropTypes.func,
   };
   
 var WKTView = requireNativeComponent('RNWikitude', WikitudeView);
