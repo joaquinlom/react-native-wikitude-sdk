@@ -69,6 +69,12 @@ RCT_EXPORT_MODULE()
     
     return _wikitudeView;
 }
+
+// Please add this one
++ (BOOL)requiresMainQueueSetup
+{
+  return YES;
+}
 RCT_EXPORT_VIEW_PROPERTY(licenseKey,NSString);
 RCT_EXPORT_VIEW_PROPERTY(url,NSString);
 RCT_EXPORT_VIEW_PROPERTY(feature,NSInteger);
