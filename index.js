@@ -10,6 +10,10 @@ class WikitudeView extends React.Component {
       super(props);
 
       this.state = {hasCameraPermissions: false};
+      
+    }
+
+    async componentWillMount(){
       if(Platform.OS === 'android'){
         try {
           const granted = await PermissionsAndroid.request(
