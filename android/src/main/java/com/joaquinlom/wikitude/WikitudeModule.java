@@ -100,7 +100,7 @@ public class WikitudeModule extends ReactContextBaseJavaModule {
 
   }
 
-  public boolean onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+  public boolean RequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
     // Your custom handling logic
     if(requestCode == CAMERA_REQUEST_CODE){
       if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -109,7 +109,7 @@ public class WikitudeModule extends ReactContextBaseJavaModule {
         wikiManager.stopAR();
       }
     }
-    return mCallbackManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    return mCallbackManager.RequestPermissionsResult(requestCode, permissions, grantResults);
   }
 
 

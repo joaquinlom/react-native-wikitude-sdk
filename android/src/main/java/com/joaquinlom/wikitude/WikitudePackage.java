@@ -53,6 +53,6 @@ public class WikitudePackage implements ReactPackage {
     return wikManager;
   }
   public boolean RequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    return wikManager.handleActivityResult(requestCode, permissions, grantResults);
-}
+    return wikManager.RequestPermissionsResult(requestCode, permissions, grantResults); 
+  }
 }
