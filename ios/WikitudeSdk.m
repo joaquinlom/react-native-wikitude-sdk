@@ -47,9 +47,11 @@ RCT_EXPORT_MODULE()
 - (instancetype)init
 {
     if (self = [super init]) {
-        
+      
     }
-    
+    [self checkCameraPermissions:^(BOOL granted) {
+        self.hasCameraPermission = &(granted);
+          }];
     return self;
 }
 
@@ -64,9 +66,12 @@ RCT_EXPORT_MODULE()
 
 - (UIView *)view
 {
-    _wikitudeView = [WikitudeView new];
-    _wikitudeView.architectView.delegate = self;
-    
+    [self checkCameraPermissions:^(BOOL granted) {
+           self.hasCameraPermission = &(granted);
+    }];
+   _wikitudeView = [WikitudeView new];
+    _wikitudeView.hasCameraPermission = self.hasCameraPermission;
+   _wikitudeView.architectView.delegate = self;
     return _wikitudeView;
 }
 
@@ -115,11 +120,31 @@ RCT_EXPORT_VIEW_PROPERTY(onFailLoading, RCTBubblingEventBlock)
         callback(YES);
         return;
     } else if (status == AVAuthorizationStatusNotDetermined){
+        NSLog(@"No determinado");
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
             callback(granted);
             return;
         }];
+    }else if (status == AVAuthorizationStatusDenied){
+        NSLog(@"Denied");
+        /*
+        NSURL * url = [[NSURL alloc] initWithString:UIApplicationOpenSettingsURLString];
+        [UIApplication.sharedApplication openURL:url];
+        */
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Camera Permission Needed" message:@"Wikitude needs the Camera to show AR" preferredStyle:UIAlertControllerStyleAlert];
+
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                //button click event
+            NSURL * url = [[NSURL alloc] initWithString:UIApplicationOpenSettingsURLString];
+            [UIApplication.sharedApplication openURL:url];
+                            }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:cancel];
+        [alert addAction:ok];
+        [ [self getRootVC] presentViewController:alert animated:YES completion:nil];
+
     } else {
+        NSLog(@"En el ultimo No");
         callback(NO);
     }
 }
@@ -146,8 +171,8 @@ RCT_EXPORT_METHOD(callJavascript:(NSString *)js reactTag:(nonnull NSNumber *)rea
     dispatch_async(dispatch_get_main_queue(), ^{
         WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
         
-       // [component callJavaScript:js];
-        [_wikitudeView callJavaScript:js];
+        [component callJavaScript:js];
+        //[self->_wikitudeView callJavaScript:js];
     });
 }
 RCT_EXPORT_METHOD(setUrl:(NSString *)url reactTag:(nonnull NSNumber *)reactTag ){
@@ -158,8 +183,8 @@ RCT_EXPORT_METHOD(setUrl:(NSString *)url reactTag:(nonnull NSNumber *)reactTag )
     dispatch_async(dispatch_get_main_queue(), ^{
            WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
            
-           //[component setUrl:url];
-          [_wikitudeView setUrl:url];
+        [component setUrl:url];
+        //[self->_wikitudeView setUrl:url];
     });
 }
 RCT_EXPORT_METHOD(injectLocation:(double *)latitude longitude:(double *)longitude){
@@ -168,32 +193,6 @@ RCT_EXPORT_METHOD(injectLocation:(double *)latitude longitude:(double *)longitud
     }
 }
 
-RCT_EXPORT_METHOD(openNewWindow:(NSString *)url hasGeolocation:(BOOL *)geo hasImageRecognition:(BOOL *)image hasInstantTracking:(BOOL *)instant wikitudeSDKKey:(NSString *)sdkkey)
-{
-
-    
-#if TARGET_IPHONE_SIMULATOR
-    self.reject(ERROR_PICKER_CANNOT_RUN_CAMERA_ON_SIMULATOR_KEY, ERROR_PICKER_CANNOT_RUN_CAMERA_ON_SIMULATOR_MSG, nil);
-    return;
-#else
-    [self checkCameraPermissions:^(BOOL granted) {
-        if (!granted) {
-            self.reject(ERROR_PICKER_NO_CAMERA_PERMISSION_KEY, ERROR_PICKER_NO_CAMERA_PERMISSION_MSG, nil);
-            return;
-        }
-        
-        WikitudeView *arView = [[WikitudeView alloc] init];
-        arView.url = url;
-        arView.licenseKey = sdkkey;
-
-        
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[self getRootVC] presentViewController:arView animated:YES completion:nil];
-        });
-    }];
-#endif
-}
 
 
 - (void)architectView:(WTArchitectView *)architectView receivedJSONObject:(NSDictionary *)jsonObject
@@ -208,30 +207,34 @@ RCT_EXPORT_METHOD(openNewWindow:(NSString *)url hasGeolocation:(BOOL *)geo hasIm
     /* Architect World did finish loading */
     NSLog(@"Architect World finish loading");
     
-    
+    _wikitudeView.onFinishLoading(@{
+    @"success": @YES
+    });
     //[architectView callJavaScript: @"alert('desde RNWikitude')"];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        _wikitudeView.onFinishLoading(@{
+    /*dispatch_async(dispatch_get_main_queue(), ^{
+       // _wikitudeView.onFinishLoading(@{
                                         @"success": @YES
                                         });
-    });
+    });*/
     
 }
 - (void)architectView:(WTArchitectView *)architectView didFailToAuthorizeRestrictedAppleiOSSDKAPIs:(NSError *)error{
     NSLog(@"DidFailToAutorize %@",[error localizedDescription]);
 }
 
+
 - (void)architectView:(WTArchitectView *)architectView didFailToLoadArchitectWorldNavigation:(WTNavigation *)navigation withError:(NSError *)error {
 
-    //NSLog(@"En delegate: Architect World from URL '%@' could not be loaded. Reason: %@", navigation.originalURL, [error localizedDescription]);
+    NSLog(@"architect view '%@' \ndid fail to load navigation '%@' \nwith error '%@'", architectView, navigation, error);
+    NSLog(@"En delegate: Architect World from URL '%@' could not be loaded. Reason: %@", navigation, [error localizedDescription]);
     
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        /*_wikitudeView.onFailLoading(@{
+        _wikitudeView.onFailLoading(@{
                                         @"success": @NO,
                                         @"message": [error localizedDescription]
                                         });
-        */
+        
     });
     
 }

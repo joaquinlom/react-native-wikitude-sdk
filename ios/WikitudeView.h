@@ -10,6 +10,7 @@
     @property (nonatomic, assign) NSString *tmp_url;
     @property (nonatomic, assign) NSString *licenseKey;
     @property (nonatomic, assign) NSInteger *feature;
+    @property BOOL hasCameraPermission;
     @property (nonatomic, strong) WTArchitectView  *architectView;
     @property (nonatomic, assign) WTNavigation* wtNavigation;
     //Events

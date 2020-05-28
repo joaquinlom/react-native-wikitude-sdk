@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 var wikitudeModule = NativeModules.WikitudeModule;
 class WikitudeView extends React.Component {
+  
     setWorldUrl = function(newUrl) {
       if (Platform.OS === "android") {
         UIManager.dispatchViewManagerCommand(

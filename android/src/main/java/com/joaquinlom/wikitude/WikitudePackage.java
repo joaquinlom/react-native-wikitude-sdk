@@ -52,4 +52,7 @@ public class WikitudePackage implements ReactPackage {
 
     return wikManager;
   }
+  public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    return wikManager.handleActivityResult(requestCode, resultCode, data);
+}
 }
