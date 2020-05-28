@@ -33,10 +33,9 @@ public class WikitudeModule extends ReactContextBaseJavaModule {
       super(reactContext);
       mCallbackManager = CallbackManager.Factory.create();
 
-      if (ContextCompat.checkSelfPermission(reactContext, Manifest.permission.CAMERA) 
-          == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(getCurrentActivity(), new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
-          }
+      if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+      }
 
       if(wikitude != null){
         //As first run it should be null
@@ -101,7 +100,7 @@ public class WikitudeModule extends ReactContextBaseJavaModule {
 
   }
 
-  public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
+  public boolean onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     // Your custom handling logic
     if(requestCode == CAMERA_REQUEST_CODE){
       if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -110,7 +109,7 @@ public class WikitudeModule extends ReactContextBaseJavaModule {
         wikiManager.stopAR();
       }
     }
-    return mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    return mCallbackManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
   }
 
 
