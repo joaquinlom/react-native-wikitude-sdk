@@ -1,11 +1,38 @@
-import { NativeModules ,requireNativeComponent ,findNodeHandle,UIManager} from 'react-native';
+import { NativeModules ,requireNativeComponent ,findNodeHandle,UIManager,PermissionsAndroid,Button} from 'react-native';
 import React from 'react';
 const { WikitudeSdk } = NativeModules;
 import PropTypes from 'prop-types';
 
 var wikitudeModule = NativeModules.WikitudeModule;
 class WikitudeView extends React.Component {
-  
+
+    constructor(props){
+      super(props);
+
+      this.state = {hasCameraPermissions: false};
+      if(Platform.OS === 'android'){
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.CAMERA,
+            {
+              title: "Wikitude Needs the Camera",
+              message:
+                "Wikitude needs the camaera to show cool AR",
+              buttonNeutral: "Ask Me Later",
+              buttonNegative: "Cancel",
+              buttonPositive: "OK"
+            }
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            this.setState({hasCameraPermissions: true})
+          } else {
+            this.setState({hasCameraPermissions: false})
+          }
+        } catch (err) {
+          console.warn(err);
+        }
+      }
+    }
     setWorldUrl = function(newUrl) {
       if (Platform.OS === "android") {
         UIManager.dispatchViewManagerCommand(
@@ -83,10 +110,24 @@ class WikitudeView extends React.Component {
           this.props.onFailLoading(event.nativeEvent);
       }
     render() {
-      return <WKTView ref="wikitudeView" {...this.props}
-      onJsonReceived={this.onJsonReceived} 
-      onFailLoading={this.onFailLoading}
-      onFinishLoading={this.onFinishLoading}/>;
+      const hasPermission = this.state.hasCameraPermissions;
+
+      if(Platform.OS == 'android'){
+        if(hasPermission){
+          return <WKTView ref="wikitudeView" {...this.props}
+              onJsonReceived={this.onJsonReceived} 
+              onFailLoading={this.onFailLoading}
+              onFinishLoading={this.onFinishLoading}/>;
+        }else{
+          return <Button title="Request Permission" />;
+        }
+      }else{
+        return <WKTView ref="wikitudeView" {...this.props}
+          onJsonReceived={this.onJsonReceived} 
+          onFailLoading={this.onFailLoading}
+          onFinishLoading={this.onFinishLoading}/>;
+      }
+      
     }
 
     
