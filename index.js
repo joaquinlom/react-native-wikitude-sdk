@@ -13,7 +13,7 @@ class WikitudeView extends React.Component {
       
     }
 
-    async componentWillMount(){
+    async componentDidMount(){
       if(Platform.OS === 'android'){
         try {
           const granted = await PermissionsAndroid.request(
