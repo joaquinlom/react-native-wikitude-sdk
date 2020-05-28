@@ -11,15 +11,28 @@
 {
     if ((self = [super initWithFrame:frame])) {
         self.architectView = [[WTArchitectView alloc] initWithFrame:frame];        
-        [self addSubview:[self architectView]];   
+        [self addSubview: [self architectView]];   
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveApplicationWillResignActiveNotification:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveApplicationDidBecomeActiveNotification:) name:UIApplicationDidBecomeActiveNotification object:nil];
         
-       self.wtNavigation =  [self.architectView loadArchitectWorldFromURL:[NSURL URLWithString:self.tmp_url]];
+      /**
+                NSURL *absoluteURL = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html" subdirectory:bundleSubdirectory];
+       */
+        NSURL *url = [NSURL URLWithString:self.tmp_url];
+        if(url && url.scheme && url.host){
+            self.wtNavigation =  [self.architectView loadArchitectWorldFromURL:url];
+        }else{
+            NSURL *bundle = [[NSBundle mainBundle] bundleURL];
+            NSURL *file = [NSURL URLWithString: [NSString stringWithFormat:@"../%@", self.tmp_url] relativeToURL:bundle];
+            NSURL *absoluteFile = [file absoluteURL];
+            self.wtNavigation =  [self.architectView loadArchitectWorldFromURL: [[NSBundle mainBundle] URLForResource:self.tmp_url withExtension:@"html"] ];
+        }
+       
         
         self.tmp_url = @"";
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self startWikitudeSDKRendering];
+            if(self.hasCameraPermission)
+               [self startWikitudeSDKRendering];
         });
         
         return self;
@@ -38,7 +51,8 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         if(self.architectView != nil){
             if([self.architectView isRunning] == NO){
-                [self startWikitudeSDKRendering];
+                if(self.hasCameraPermission)
+                  [self startWikitudeSDKRendering];
             }
         }
         
@@ -69,7 +83,6 @@
 -(void)setUrl:(NSString *)url
 {
     
-    NSLog(@"tmp url: %@",self.tmp_url);
     NSLog(@"url: %@",url);
     /*if( url != self.tmp_url){
         
@@ -80,7 +93,17 @@
         //NSLog(url);
         if( self.architectView != nil){
             NSLog(@"loadArchitectWorld");
-            [self.architectView loadArchitectWorldFromURL:[NSURL URLWithString:url]];
+            
+            NSURL *url2 = [NSURL URLWithString:url];
+                  if(url2 && url2.scheme && url2.host){
+                      self.wtNavigation =  [self.architectView loadArchitectWorldFromURL:url2];
+                  }else{
+                      NSURL *bundle = [[NSBundle mainBundle] bundleURL];
+                      NSURL *file = [NSURL URLWithString:[NSString stringWithFormat:@"../%@", self.tmp_url] relativeToURL:bundle];
+                      NSURL *absoluteFile = [file absoluteURL];
+                      self.wtNavigation =  [self.architectView loadArchitectWorldFromURL: [[NSBundle mainBundle] URLForResource:self.tmp_url withExtension:@"html"] ];
+                  }
+            //[self.architectView loadArchitectWorldFromURL:[NSURL URLWithString:url]];
         }
     }
     @catch (NSException *exception) {

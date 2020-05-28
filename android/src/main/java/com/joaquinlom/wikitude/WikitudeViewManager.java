@@ -66,6 +66,7 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
     Activity activity;
     ConstraintLayout container;
     Boolean firstTime = true;
+    Boolean hasCameraPermission = false;
     private final String TAG ="WikitudeViewManager";
      final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
         @Override

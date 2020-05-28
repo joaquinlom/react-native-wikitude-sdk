@@ -13,6 +13,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.CallbackManager;
 import com.facebook.react.bridge.ReadableMap;
 import com.wikitude.architect.ArchitectView;
 import com.wikitude.common.permission.PermissionManager;
@@ -23,12 +24,20 @@ import java.util.Arrays;
 
 public class WikitudeModule extends ReactContextBaseJavaModule {
 
-    private WikitudeView wikitudeView;
-    private WikitudeViewManager wikiManager;
-
+  private WikitudeView wikitudeView;
+  private WikitudeViewManager wikiManager;
+  public int CAMERA_REQUEST_CODE = 13;
+  private CallbackManager mCallbackManager;
 
   public WikitudeModule(ReactApplicationContext reactContext,WikitudeViewManager wikitude) {
       super(reactContext);
+      mCallbackManager = CallbackManager.Factory.create();
+
+      if (ContextCompat.checkSelfPermission(reactContext, Manifest.permission.CAMERA) 
+          == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(getCurrentActivity(), new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+          }
+
       if(wikitude != null){
         //As first run it should be null
         wikiManager = wikitude;
@@ -91,5 +100,18 @@ public class WikitudeModule extends ReactContextBaseJavaModule {
   {
 
   }
+
+  public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    // Your custom handling logic
+    if(requestCode == CAMERA_REQUEST_CODE){
+      if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        wikiManager.resumeAR();
+      } else {
+        wikiManager.stopAR()
+      }
+    }
+    return mCallbackManager.onActivityResult(requestCode, resultCode, data);
+  }
+
 
 }

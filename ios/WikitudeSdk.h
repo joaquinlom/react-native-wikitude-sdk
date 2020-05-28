@@ -22,5 +22,6 @@
 //@property (nonatomic, strong) RCTPromiseResolveBlock resolve;
 @property (nonatomic, strong) RCTPromiseRejectBlock reject;
 @property (nonatomic, strong) WikitudeView  *wikitudeView;
+@property  BOOL  *hasCameraPermission;
 
 @end
