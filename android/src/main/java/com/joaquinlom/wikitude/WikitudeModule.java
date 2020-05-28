@@ -107,7 +107,7 @@ public class WikitudeModule extends ReactContextBaseJavaModule {
       if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
         wikiManager.resumeAR();
       } else {
-        wikiManager.stopAR()
+        wikiManager.stopAR();
       }
     }
     return mCallbackManager.onActivityResult(requestCode, resultCode, data);
