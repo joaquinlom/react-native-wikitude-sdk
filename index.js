@@ -3,14 +3,13 @@ import React from 'react';
 const { WikitudeSdk } = NativeModules;
 import PropTypes from 'prop-types';
 
-var wikitudeModule = NativeModules.WikitudeModule;
 class WikitudeView extends React.Component {
 
     constructor(props){
       super(props);
 
       this.state = {hasCameraPermissions: false};
-      
+      this.requestPermission = this.requestPermission.bind(this);
     }
 
     async componentDidMount(){
@@ -37,13 +36,42 @@ class WikitudeView extends React.Component {
         }
       }
     }
+    requestPermission = function(){
+      if(Platform.OS === 'android'){
+        try {
+          PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.CAMERA,
+            {
+              title: "Wikitude Needs the Camera",
+              message:
+                "Wikitude needs the camaera to show cool AR",
+              buttonNeutral: "Ask Me Later",
+              buttonNegative: "Cancel",
+              buttonPositive: "OK"
+            }
+          ).then(granted=>{
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+              this.setState({hasCameraPermissions: true})
+            } else {
+              this.setState({hasCameraPermissions: false})
+            }
+          })
+          
+        } catch (err) {
+          console.warn(err);
+        }
+      }
+    }
     setWorldUrl = function(newUrl) {
       if (Platform.OS === "android") {
-        UIManager.dispatchViewManagerCommand(
-          findNodeHandle(this.refs.wikitudeView),
-          UIManager.RNWikitude.Commands.setUrlMode,
-          [newUrl]
-        );
+        if(this.state.hasCameraPermissions){
+          UIManager.dispatchViewManagerCommand(
+            findNodeHandle(this.refs.wikitudeView),
+            UIManager.RNWikitude.Commands.setUrlMode,
+            [newUrl]
+          );
+        }
+        
       } else if (Platform.OS === "ios") {
        return  NativeModules.RNWikitude.setUrl(newUrl,
           findNodeHandle(this.refs.wikitudeView)
@@ -53,11 +81,14 @@ class WikitudeView extends React.Component {
     };
     callJavascript = function(js){
       if (Platform.OS === "android") {
-        UIManager.dispatchViewManagerCommand(
-          findNodeHandle(this.refs.wikitudeView),
-          UIManager.RNWikitude.Commands.callJSMode,
-          [js]
-        );
+        if(this.state.hasCameraPermissions){
+          UIManager.dispatchViewManagerCommand(
+            findNodeHandle(this.refs.wikitudeView),
+            UIManager.RNWikitude.Commands.callJSMode,
+            [js]
+          );
+        }
+        
       } else if (Platform.OS === "ios") {
        return  NativeModules.RNWikitude.callJavascript(js,
           findNodeHandle(this.refs.wikitudeView)
@@ -66,31 +97,38 @@ class WikitudeView extends React.Component {
     }
     injectLocation = function(lat,lng){
       if(Platform.OS === "android"){
-        UIManager.dispatchViewManagerCommand(
-          findNodeHandle(this.refs.wikitudeView),
-          UIManager.RNWikitude.Commands.injectLocationMode,
-          [lat,lng]
-        );
+        if(this.state.hasCameraPermissions){
+          UIManager.dispatchViewManagerCommand(
+            findNodeHandle(this.refs.wikitudeView),
+            UIManager.RNWikitude.Commands.injectLocationMode,
+            [lat,lng]
+          );
+        }
       }else{
         
       }
     }
     stopRendering = function(){
         if(Platform.OS === "android"){
-          UIManager.dispatchViewManagerCommand(
-            findNodeHandle(this.refs.wikitudeView),
-            UIManager.RNWikitude.Commands.stopARMode,
-            []
-          );
+          if(this.state.hasCameraPermissions){
+            UIManager.dispatchViewManagerCommand(
+              findNodeHandle(this.refs.wikitudeView),
+              UIManager.RNWikitude.Commands.stopARMode,
+              []
+            );
+          }
+          
         }
     }
     resumeRendering = function(){
       if(Platform.OS === "android"){
-        UIManager.dispatchViewManagerCommand(
-          findNodeHandle(this.refs.wikitudeView),
-          UIManager.RNWikitude.Commands.resumeARMode,
-          []
-        );
+        if(this.state.hasCameraPermissions){
+          UIManager.dispatchViewManagerCommand(
+            findNodeHandle(this.refs.wikitudeView),
+            UIManager.RNWikitude.Commands.resumeARMode,
+            []
+          );
+        }
       }
     }
     onJsonReceived = (event) => {
@@ -123,7 +161,7 @@ class WikitudeView extends React.Component {
               onFailLoading={this.onFailLoading}
               onFinishLoading={this.onFinishLoading}/>;
         }else{
-          return <Button title="Request Permission" />;
+          return <Button title="Request Permission" onPress={this.requestPermission}/>;
         }
       }else{
         return <WKTView ref="wikitudeView" {...this.props}
@@ -153,8 +191,7 @@ class WikitudeView extends React.Component {
 var WKTView = requireNativeComponent('RNWikitude', WikitudeView);
 
 module.exports = { 
-    WikitudeView,
-    wikitudeModule
+    WikitudeView
   };
   
   
