@@ -123,7 +123,7 @@ Wikitude needs the camera for obvious reasons
 
 ## IOS
 Please verify the info.plist for the camera permission text, the module only check the camera permission. 
-Note- If the users grant permission but goes to the settings and change the permission, it wont ask again for the permission, you need to link the user to the settings page or display an message.
+Note- If the users grant permission but goes to the settings and change the permission, it wont ask again for the permission, you need to link the user to the settings page or display a message.
 
 
 
