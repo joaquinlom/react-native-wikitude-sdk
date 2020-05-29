@@ -3,10 +3,6 @@
 # Introduction 
 This is a React Native bridge module for [Wikitude](https://www.wikitude.com/) which provides a simple integration to the Wikitude AR SDK. 
 
-
-# PERMISSIONS
-You need to ensure that the user already give permission before display the wikitude View
-
 ## How to install
 
 First install the module via npm and link it up:
@@ -124,7 +120,7 @@ Wikitude needs the camera for obvious reasons
 
 ## Android
  will ask for permission using the PermissionsAndroid module from React Native. if no permissions was granted, will show a button to ask again.
- 
+
 ## IOS
 Please verify the info.plist for the camera permission text, the module only check the camera permission. 
 Note- If the users grant permission but goes to the settings and change the permission, it wont ask again for the permission, you need to link the user to the settings page or display an message.
