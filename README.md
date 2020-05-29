@@ -119,7 +119,7 @@ Just put the url in the property, it's need to be  a public URL.
 Wikitude needs the camera for obvious reasons
 
 ## Android
- will ask for permission using the PermissionsAndroid module from React Native. if no permissions was granted, will show a button to ask again.
+ will ask for permission using the PermissionsAndroid module from React Native. if no permissions was granted, it will render a button to ask again.
 
 ## IOS
 Please verify the info.plist for the camera permission text, the module only check the camera permission. 
