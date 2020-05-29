@@ -78,11 +78,35 @@ To change the feature you will need to destroy and recreate the component.
 
 if you have a memory leak or a crash because you switch screens, you need to tell Wikitude to 
 Stop rendering , to do this you will need to ref the component and call 
+
 ```typescript
 stopRendering() and resumeRendering()
 ```
 
+## Offline Experiences
+You can run wikitude with local experiences, in order to do this, you will need to handle different betweens platforms
 
+### Android
+Go to you main project android folder /android/app/src/main ; Create a new folder called assets, inside here you will put your folder with your experiences.
+and to use it, just put the ```typescript url property ``` to your index file (Without the extension). 
+Example:
+	url: 'ARchitectExamples/07_3dModels_4_SnapToScreen/index'
+
+### IOS
+Open your xworkspace file , and link a file inside the main folder.(You can drag & drop the file into xcode) 
+You need to check that the assets are in the Build phase - Copy Bundle resources. 
+Example:
+	url: 'assets/ARchitectExamples/07_3dModels_4_SnapToScreen/index'
+	P.D- this is also whitout the extension.
+
+### Considerations
+On Android, the assets folder is no neccessary but it does on IOS, you can do a conditional to set the url
+
+
+## Online
+Just put the url in the property, it's need to be  a public URL.
+
+## Render
 
 ```ecmascript 6
 <WikitudeView
@@ -95,6 +119,18 @@ stopRendering() and resumeRendering()
         onFinishLoading={this.onFinishLoading}
       />
 ```
+# Permissions
+Wikitude needs the camera for obvious reasons
+
+## Android
+ will ask for permission using the PermissionsAndroid module from React Native. if no permissions was granted, will show a button to ask again.
+ 
+## IOS
+Please verify the info.plist for the camera permission text, the module only check the camera permission. 
+Note- If the users grant permission but goes to the settings and change the permission, it wont ask again for the permission, you need to link the user to the settings page or display an message.
+
+
+
 # Methods
 
 - setWorldUrl(url)
@@ -104,7 +140,7 @@ stopRendering() and resumeRendering()
 	Send a String as a JS, to inject into the ARView and call it.
 	
 - injectLocation(lat,ln)
-	Send location into the view to inject the location of the device
+	Send location into the view to inject the location of the device, TODO
 
 - stopRendering
 	Stops all rendering of the Wikitude View, this will stops the camera also
@@ -117,7 +153,7 @@ stopRendering() and resumeRendering()
 	handles the JSON received event from the Experience
 
 - onFinishLoading(event)
-	handles the event when the Experience is finish loading
+	on Android it might call twice when is a online experience. handles the event when the Experience is finish loading
 
 - onFailLoading(event)
 	handles the event when the experinces has an error loading
@@ -127,8 +163,7 @@ stopRendering() and resumeRendering()
 You can check this example app [Github](https://github.com/joaquinlom/react-native-wikitude-sdk-example).
 
 ## Things to considerate:
-- On Android you need to set the URL with the method, not only with the props
-- Check permissions after try to add the View. on future version I will add the logic inside, but as right now, it's mannually
+- Rigth now, it only had Camera permission, if you need something else you will need to do it mannually
 - This is work in progress, it's not ready for production, use it as you own risk.
 
 ## ChangeLog
