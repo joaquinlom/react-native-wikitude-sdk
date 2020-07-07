@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		578B360424B508F700A92BBD /* Frameworks in Frameworks */ = {isa = PBXBuildFile; fileRef = 578B360324B508F700A92BBD /* Frameworks */; };
 		B3E7B58A1CC2AC0600A0062D /* WikitudeSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* WikitudeSdk.m */; };
 /* End PBXBuildFile section */
 
@@ -35,7 +34,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				578B360424B508F700A92BBD /* Frameworks in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
