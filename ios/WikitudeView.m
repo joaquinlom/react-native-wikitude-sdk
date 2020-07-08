@@ -71,7 +71,8 @@
 }
 - (void)setLicenseKey:(NSString *)licenseKey
 {
-    [self.architectView setLicenseKey:licenseKey];
+    if( self.architectView != nil)
+        [self.architectView setLicenseKey:licenseKey];
 }
 
 - (void)setFeatures:(NSInteger *)feature
@@ -114,6 +115,9 @@
 
 -(void)startWikitudeSDKRendering{
 
+    if( self.architectView == nil){
+        return;
+    }
     /* To check if the WTArchitectView is currently rendering, the isRunning property can be used */
     if ( ![self.architectView isRunning] ) {
         
@@ -132,6 +136,9 @@
 }
 
 -(void)stopWikitudeSDKRendering {
+    if(self.architectView == nil){
+        return;
+    }
     /* The stop method is blocking until the rendering and camera access is stopped */
     if ( [self.architectView isRunning] ) {
         [self.architectView stop];
@@ -139,10 +146,12 @@
 }
 
 -(void)injectLocationWithLatitude:(double *)latitude longitude:(double *)longitude{
-    [self.architectView injectLocationWithLatitude:*latitude longitude:*longitude accuracy:100.0];
+    if(self.architectView != nil)
+        [self.architectView injectLocationWithLatitude:*latitude longitude:*longitude accuracy:100.0];
 }
 
 - (void)callJavaScript:(NSString *)js{
+    
     if ( [_architectView isRunning] ) {
         [_architectView callJavaScript:js];
     }
