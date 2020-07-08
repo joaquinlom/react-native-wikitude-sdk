@@ -118,6 +118,10 @@ class WikitudeView extends React.Component {
             );
           }
           
+        }else{
+          return  NativeModules.RNWikitude.stopAR(
+            findNodeHandle(this.refs.wikitudeView)
+          );
         }
     }
     resumeRendering = function(){
@@ -129,6 +133,10 @@ class WikitudeView extends React.Component {
             []
           );
         }
+      }else{
+        return  NativeModules.RNWikitude.resumeAR(
+          findNodeHandle(this.refs.wikitudeView)
+        );
       }
     }
     onJsonReceived = (event) => {
