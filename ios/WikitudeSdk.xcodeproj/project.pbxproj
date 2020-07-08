@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		57AA9BE324B54056003325DB /* WikitudeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57AA9BE224B54055003325DB /* WikitudeSDK.framework */; };
+		57AA9BF924B54D74003325DB /* WikitudeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57AA9BF824B54D73003325DB /* WikitudeSDK.framework */; };
 		B3E7B58A1CC2AC0600A0062D /* WikitudeSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* WikitudeSdk.m */; };
 /* End PBXBuildFile section */
 
@@ -25,7 +25,7 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libWikitudeSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWikitudeSdk.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		57AA9BE224B54055003325DB /* WikitudeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WikitudeSDK.framework; sourceTree = "<group>"; };
+		57AA9BF824B54D73003325DB /* WikitudeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WikitudeSDK.framework; path = "../../../../../../../Downloads/WikitudeSDK_iOS_9-1-0_2020-05-19_10-13-53/Framework/WikitudeSDK.framework"; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* WikitudeSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikitudeSdk.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* WikitudeSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikitudeSdk.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -35,7 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57AA9BE324B54056003325DB /* WikitudeSDK.framework in Frameworks */,
+				57AA9BF924B54D74003325DB /* WikitudeSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,7 +53,7 @@
 		578B360224B508F700A92BBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				57AA9BE224B54055003325DB /* WikitudeSDK.framework */,
+				57AA9BF824B54D73003325DB /* WikitudeSDK.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -230,7 +230,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Frameworks",
-					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -250,7 +250,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Frameworks",
-					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
