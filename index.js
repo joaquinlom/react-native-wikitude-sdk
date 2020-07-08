@@ -38,7 +38,7 @@ class WikitudeView extends React.Component {
     }
     componentWillUnmount(){
       console.log("Unmounting SDK")
-      this.stopAR();
+      this.stopRendering();
     }
     requestPermission = function(){
       if(Platform.OS === 'android'){
