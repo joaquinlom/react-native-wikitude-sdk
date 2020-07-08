@@ -24,5 +24,6 @@ Pod::Spec.new do |s|
   s.dependency "React"
   # ...
   # s.dependency "..."
+  s.vendored_frameworks = 'ios/WikitudeSDK.framework'
 end
 
