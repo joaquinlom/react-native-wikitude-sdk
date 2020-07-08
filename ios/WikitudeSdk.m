@@ -69,6 +69,9 @@ RCT_EXPORT_MODULE()
     [self checkCameraPermissions:^(BOOL granted) {
            self.hasCameraPermission = &(granted);
     }];
+    if(_wikitudeView != NULL){
+        return _wikitudeView;
+    }
    _wikitudeView = [WikitudeView new];
     _wikitudeView.hasCameraPermission = self.hasCameraPermission;
    _wikitudeView.architectView.delegate = self;
