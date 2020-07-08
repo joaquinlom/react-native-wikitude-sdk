@@ -150,17 +150,32 @@ RCT_EXPORT_VIEW_PROPERTY(onFailLoading, RCTBubblingEventBlock)
 }
 
 
-RCT_EXPORT_METHOD(resumeAR){
-    if ( [_wikitudeView isRunning] != NO ) {
+RCT_EXPORT_METHOD(resumeAR:(nonnull NSNumber *)reactTag){
+    /*if ( [_wikitudeView isRunning] != NO ) {
                 [_wikitudeView startWikitudeSDKRendering];
-    }
+    }*/
+    dispatch_async(dispatch_get_main_queue(), ^{
+        WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
+        
+        [component startWikitudeSDKRendering];
+        //[self->_wikitudeView callJavaScript:js];
+    });
 }
-RCT_EXPORT_METHOD(stopAR){
-    if(_wikitudeView != nil){
+RCT_EXPORT_METHOD(stopAR:(nonnull NSNumber *)reactTag){
+    /*if(_wikitudeView != nil){
         if([_wikitudeView isRunning] != NO){
         [_wikitudeView stopWikitudeSDKRendering];
         }
     }
+    */
+    dispatch_async(dispatch_get_main_queue(), ^{
+        WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
+        if([component isRunning] != NO){
+            [component stopWikitudeSDKRendering];
+        }
+        
+        //[self->_wikitudeView callJavaScript:js];
+    });
 }
 
 RCT_EXPORT_METHOD(callJavascript:(NSString *)js reactTag:(nonnull NSNumber *)reactTag){
