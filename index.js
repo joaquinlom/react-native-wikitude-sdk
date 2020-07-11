@@ -167,7 +167,6 @@ class WikitudeView extends React.Component {
       if(!this.props.onScreenCaptured){
         return;
       }
-      console.log(event);
       this.props.onScreenCaptured(event.nativeEvent);
     }
     captureScreen = (mode) => {
@@ -181,6 +180,9 @@ class WikitudeView extends React.Component {
         }
         
       } else if (Platform.OS === "ios") {
+        return  NativeModules.RNWikitude.captureScreen(mode,
+          findNodeHandle(this.refs.wikitudeView)
+        );
       }
     }
     render() {
@@ -200,7 +202,8 @@ class WikitudeView extends React.Component {
         return <WKTView ref="wikitudeView" {...this.props}
           onJsonReceived={this.onJsonReceived} 
           onFailLoading={this.onFailLoading}
-          onFinishLoading={this.onFinishLoading}/>;
+          onFinishLoading={this.onFinishLoading}
+          onScreenCaptured={this.onScreenCaptured}/>;
       }
       
     }
@@ -219,6 +222,7 @@ class WikitudeView extends React.Component {
     onJsonReceived: PropTypes.func,
     onFinishLoading:PropTypes.func,
     onFailLoading:PropTypes.func,
+    onScreenCaptured:PropTypes.func,
   };
   
 var WKTView = requireNativeComponent('RNWikitude', WikitudeView);

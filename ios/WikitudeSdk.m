@@ -89,7 +89,7 @@ RCT_EXPORT_VIEW_PROPERTY(feature,NSInteger);
 RCT_EXPORT_VIEW_PROPERTY(onJsonReceived, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onFinishLoading, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onFailLoading, RCTBubblingEventBlock)
-
+RCT_EXPORT_VIEW_PROPERTY(onScreenCaptured, RCTBubblingEventBlock)
 
 - (void) setConfiguration:(NSDictionary *)options
                  resolver:(RCTPromiseResolveBlock)resolve
@@ -180,7 +180,19 @@ RCT_EXPORT_METHOD(stopAR:(nonnull NSNumber *)reactTag){
         //[self->_wikitudeView callJavaScript:js];
     });
 }
-
+RCT_EXPORT_METHOD(captureScreen:(BOOL *)mode reactTag:(nonnull NSNumber *)reactTag){
+    /*if( _wikitudeView != nil){
+        [_wikitudeView callJavaScript:js];
+    }
+    */
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
+        NSLog(@"capture rct export method");
+        [component captureScreen:mode];
+         [_wikitudeView captureScreen:mode];
+    });
+}
 RCT_EXPORT_METHOD(callJavascript:(NSString *)js reactTag:(nonnull NSNumber *)reactTag){
     /*if( _wikitudeView != nil){
         [_wikitudeView callJavaScript:js];
@@ -210,8 +222,31 @@ RCT_EXPORT_METHOD(injectLocation:(double *)latitude longitude:(double *)longitud
         [_wikitudeView injectLocationWithAltitude:latitude longitude:longitude];
     }
 }
+- (void)showPhotoLibraryAlert
+{
+    UIAlertController *photoLibraryStatusNotificationController = [UIAlertController alertControllerWithTitle:@"Success" message:@"Screenshot was stored in your photo library" preferredStyle:UIAlertControllerStyleAlert];
+    [photoLibraryStatusNotificationController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil]];
+}
+- (void)architectView:(WTArchitectView *)architectView didCaptureScreenWithContext:(NSDictionary *)context
+{
+    //WTScreenshotSaveMode saveMode = [[context objectForKey:kWTScreenshotSaveModeKey] unsignedIntegerValue];
+    NSLog(@"didCaptureScreenWithContext");
+    UIImage *image = [context objectForKey:kWTScreenshotImageKey];
+    NSString *base = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    
+    _wikitudeView.onScreenCaptured(@{
+            @"success": @"true",
+            @"image":  [NSString stringWithFormat:@"%@%@", @"data:image/png;base64,", base]
+    });
+}
 
-
+- (void)architectView:(WTArchitectView *)architectView didFailCaptureScreenWithError:(NSError *)error
+{
+    NSLog(@"Error capturing screen: %@", error);
+    _wikitudeView.onScreenCaptured(@{
+            @"success": @"false"
+    });
+}
 
 - (void)architectView:(WTArchitectView *)architectView receivedJSONObject:(NSDictionary *)jsonObject
 {
