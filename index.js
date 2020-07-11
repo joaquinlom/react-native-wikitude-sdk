@@ -163,6 +163,26 @@ class WikitudeView extends React.Component {
           }
           this.props.onFailLoading(event.nativeEvent);
       }
+  onScreenCaptured = event =>{
+      if(!this.props.onScreenCaptured){
+        return;
+      }
+      console.log(event);
+      this.props.onScreenCaptured(event.nativeEvent);
+    }
+    captureScreen = (mode) => {
+      if (Platform.OS === "android") {
+        if(this.state.hasCameraPermissions){
+          UIManager.dispatchViewManagerCommand(
+            findNodeHandle(this.refs.wikitudeView),
+            UIManager.RNWikitude.Commands.captureScreen,
+            [mode]
+          );
+        }
+        
+      } else if (Platform.OS === "ios") {
+      }
+    }
     render() {
       const hasPermission = this.state.hasCameraPermissions;
 
@@ -171,7 +191,8 @@ class WikitudeView extends React.Component {
           return <WKTView ref="wikitudeView" {...this.props}
               onJsonReceived={this.onJsonReceived} 
               onFailLoading={this.onFailLoading}
-              onFinishLoading={this.onFinishLoading}/>;
+              onFinishLoading={this.onFinishLoading}
+              onScreenCaptured={this.onScreenCaptured}/>;
         }else{
           return <Button title="Request Permission" onPress={this.requestPermission}/>;
         }
