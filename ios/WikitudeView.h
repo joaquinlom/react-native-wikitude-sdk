@@ -17,12 +17,15 @@
     @property (nonatomic, copy) RCTBubblingEventBlock onJsonReceived;
     @property (nonatomic, copy) RCTBubblingEventBlock onFinishLoading;
     @property (nonatomic, copy) RCTBubblingEventBlock onFailLoading;
+    @property (nonatomic, copy) RCTBubblingEventBlock onScreenCaptured;
 
     -(void)startWikitudeSDKRendering;
     -(void)setUrl:(NSString *)url;
     -(void)injectLocationWithAltitude:(double *)latitude longitude:(double *)longitude;
     -(void)callJavaScript:(NSString *)js;
     -(void)stopWikitudeSDKRendering;
+    -(void)captureScreen:(BOOL *)mode;
+    
     -(BOOL)isRunning;
     
 @end

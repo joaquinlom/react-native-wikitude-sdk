@@ -149,7 +149,15 @@
     if(self.architectView != nil)
         [self.architectView injectLocationWithLatitude:*latitude longitude:*longitude accuracy:100.0];
 }
-
+-(void)captureScreen:(BOOL *)mode{
+        NSDictionary* info = @{};
+      NSLog(@"Trying to Capture Screen");
+       if(mode == YES){
+            [self.architectView captureScreenWithMode: WTScreenshotCaptureMode_CamAndWebView usingSaveMode:WTScreenshotSaveMode_Delegate saveOptions:WTScreenshotSaveOption_CallDelegateOnSuccess context:info];
+        }else{
+            [self.architectView captureScreenWithMode: WTScreenshotCaptureMode_Cam usingSaveMode:WTScreenshotSaveMode_Delegate saveOptions:WTScreenshotSaveOption_CallDelegateOnSuccess context:info];
+        }
+}
 - (void)callJavaScript:(NSString *)js{
     
     if ( [_architectView isRunning] ) {
