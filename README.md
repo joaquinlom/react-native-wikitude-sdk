@@ -64,7 +64,14 @@ After that completes, you will need to do additional steps for each platform you
 	```
 
 ### iOS
-You need to open the workspace of your project, then add the wikitude Framework as the Wikitude documentation. Also you need to add in the info.plist the neccesary text for the Camera/Location permission
+after install the package, you need to run 'pod install' inside ios folder
+
+```bash
+cd ios
+pod install
+```
+
+make sure that the WikitudeSDK is inside node_modules/react-native-wikitude-sdk/ios
 
 https://stackoverflow.com/questions/24993752/os-x-framework-library-not-loaded-image-not-found
 
@@ -75,8 +82,8 @@ To change the feature you will need to destroy and recreate the component.
 if you have a memory leak or a crash because you switch screens, you need to tell Wikitude to 
 Stop rendering , to do this you will need to ref the component and call 
 
-```typescript
-stopRendering() and resumeRendering()
+```javascript
+wikitudeRef.current.stopRendering() and wikitudeRef.current.resumeRendering()
 ```
 
 ## Offline Experiences
@@ -113,10 +120,11 @@ Just put the url in the property, it's need to be  a public URL.
         feature={WikitudeView.Geo}
         onJsonReceived={this.onJsonReceived}
         onFinishLoading={this.onFinishLoading}
+		onScreenCaptured={this.onScreenCaptured}
       />
 ```
 # Permissions
-Wikitude needs the camera for obvious reasons
+Wikitude needs the camera for display AR.
 
 ## Android
  will ask for permission using the PermissionsAndroid module from React Native. if no permissions was granted, it will render a button to ask again.
@@ -144,6 +152,9 @@ Note- If the users grant permission but goes to the settings and change the perm
 - resumeRendering
 	Resume the current experience, you need to stop first in order to resume.
 
+- captureScreen
+	Will take a screenshot and the onScreenCapture will fired with a Base64 image inside the image property (event.image)
+
 # Events
 - onJsonReceived(event)
 	handles the JSON received event from the Experience
@@ -154,6 +165,9 @@ Note- If the users grant permission but goes to the settings and change the perm
 - onFailLoading(event)
 	handles the event when the experinces has an error loading
 
+- onScreeCaptured(event)
+	handles when the images is taken, will have a Image property that is a Base64 String.
+	
 # How to use the module
 
 You can check this example app [Github](https://github.com/joaquinlom/react-native-wikitude-sdk-example).
