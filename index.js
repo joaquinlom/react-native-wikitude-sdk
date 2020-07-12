@@ -1,4 +1,4 @@
-import { NativeModules ,requireNativeComponent ,findNodeHandle,UIManager,PermissionsAndroid,Button} from 'react-native';
+import { NativeModules ,requireNativeComponent ,findNodeHandle,UIManager,PermissionsAndroid,Button, Platform} from 'react-native';
 import React from 'react';
 const { WikitudeSdk } = NativeModules;
 import PropTypes from 'prop-types';
@@ -66,6 +66,15 @@ class WikitudeView extends React.Component {
         }
       }
     }
+    isDeviceSupportingFeature = feature => {
+      if(Platform.OS == 'android'){
+
+      }else{
+        return  NativeModules.RNWikitude.isDeviceSupportingFeatures(feature,
+          findNodeHandle(this.refs.wikitudeView)
+        );
+      }
+    }
     setWorldUrl = function(newUrl) {
       if (Platform.OS === "android") {
         if(this.state.hasCameraPermissions){
@@ -109,7 +118,10 @@ class WikitudeView extends React.Component {
           );
         }
       }else{
-        
+        return  NativeModules.RNWikitude.injectLocation(
+          lat,lng,
+          findNodeHandle(this.refs.wikitudeView)
+        );
       }
     }
     stopRendering = function(){
@@ -151,19 +163,19 @@ class WikitudeView extends React.Component {
         // process raw event...
         this.props.onJsonReceived(event.nativeEvent);
       }
-      onFinishLoading = (event)=> {
+    onFinishLoading = (event)=> {
           if(!this.props.onFinishLoading){
               return;
           }
           this.props.onFinishLoading(event.nativeEvent);
       }  
-      onFailLoading = (event)=>{
+    onFailLoading = (event)=>{
           if(!this.props.onFailLoading){
               return;
           }
           this.props.onFailLoading(event.nativeEvent);
       }
-  onScreenCaptured = event =>{
+    onScreenCaptured = event =>{
       if(!this.props.onScreenCaptured){
         return;
       }
@@ -207,8 +219,6 @@ class WikitudeView extends React.Component {
       }
       
     }
-
-    
   }
   
   WikitudeView.propTypes = {
