@@ -103,7 +103,7 @@ Example:
 	P.D- this is also whitout the extension.
 
 ### Considerations
-On Android, the assets folder is no neccessary but it does on IOS, you can do a conditional to set the url
+On Android, the assets folder naming is no neccessary but it does on IOS, you can do a conditional to set the url
 
 
 ## Online
@@ -167,7 +167,7 @@ Note- If the users grant permission but goes to the settings and change the perm
 
 - onScreeCaptured(event)
 	handles when the images is taken, will have a Image property that is a Base64 String.
-	
+
 # How to use the module
 
 You can check this example app [Github](https://github.com/joaquinlom/react-native-wikitude-sdk-example).

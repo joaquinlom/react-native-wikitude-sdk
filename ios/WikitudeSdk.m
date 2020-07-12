@@ -217,9 +217,22 @@ RCT_EXPORT_METHOD(setUrl:(NSString *)url reactTag:(nonnull NSNumber *)reactTag )
         //[self->_wikitudeView setUrl:url];
     });
 }
-RCT_EXPORT_METHOD(injectLocation:(double *)latitude longitude:(double *)longitude){
+RCT_EXPORT_METHOD(injectLocation:(double *)latitude longitude:(double *)longitude reactTag:(nonnull NSNumber *)reactTag){
     if(_wikitudeView != nil){
         [_wikitudeView injectLocationWithAltitude:latitude longitude:longitude];
+    }
+}
+RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature (RCTResponseSenderBlock)callback)
+{
+  if([_wikitudeView isDeviceSupportingFeatures:feature]){
+         callback(@[[NSNull null], YES]);
+  }else{
+      callback(@[[NSNull null], NO]);
+  }
+}
+RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature reactTag:(nonnull NSNumber *)reactTag){
+    if(_wikitudeView != nil){
+        [_wikitudeView isDeviceSupportingFeatures:feature];
     }
 }
 - (void)showPhotoLibraryAlert

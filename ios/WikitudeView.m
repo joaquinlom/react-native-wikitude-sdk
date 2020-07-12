@@ -164,4 +164,8 @@
         [_architectView callJavaScript:js];
     }
 }
+
+-(BOOL) isDeviceSupportingFeatures:(int *) feature{
+    return [self.architectView isDeviceSupportingFeature: feature];
+}
 @end

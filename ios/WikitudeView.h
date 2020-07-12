@@ -25,7 +25,7 @@
     -(void)callJavaScript:(NSString *)js;
     -(void)stopWikitudeSDKRendering;
     -(void)captureScreen:(BOOL *)mode;
-    
+    -(BOOL)isDeviceSupportingFeatures:(WTFeatures)requiredFeatures;
     -(BOOL)isRunning;
     
 @end
