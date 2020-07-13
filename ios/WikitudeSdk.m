@@ -244,7 +244,7 @@ RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature reactTag:(nonnull NSNu
 {
     //WTScreenshotSaveMode saveMode = [[context objectForKey:kWTScreenshotSaveModeKey] unsignedIntegerValue];
     NSLog(@"didCaptureScreenWithContext");
-    UIImage *image = [context objectForKey:WTScreenshotImageKey];
+    UIImage *image = [context objectForKey:kWTScreenshotImageKey];
     NSString *base = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     
     _wikitudeView.onScreenCaptured(@{
