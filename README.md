@@ -36,7 +36,8 @@ After that completes, you will need to do additional steps for each platform you
 
 2. And then in your `android/settings.gradle` file, modify the existing `include ':react-native-wikitude'` line to also include the `wikitudesdk`:
 	```gradle
-	include ':wikitudesdk', ':react-native-wikitude'
+	include ':wikitudesdk',':react-native-wikitude-sdk'
+project(':react-native-wikitude-sdk').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-wikitude-sdk/android')
 	```
 	
 3. In your `android/build.gradle` file, modify the minimum SDK version to at least version 19:
@@ -44,7 +45,7 @@ After that completes, you will need to do additional steps for each platform you
 	android {
 		defaultConfig {
 			...
-			minSdkVersion 19
+			minSdkVersion 21
 			...
 		}
 	```
