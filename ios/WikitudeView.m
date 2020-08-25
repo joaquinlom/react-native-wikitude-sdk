@@ -166,6 +166,6 @@
 }
 
 -(BOOL) isDeviceSupportingFeatures:(int *) feature{
-    return [self.architectView isDeviceSupportingFeature: feature];
+    return YES;
 }
 @end

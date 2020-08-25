@@ -230,11 +230,13 @@ RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature (RCTResponseSenderBloc
       callback(@[[NSNull null], NO]);
   }
 }
+/*
 RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature reactTag:(nonnull NSNumber *)reactTag){
     if(_wikitudeView != nil){
         [_wikitudeView isDeviceSupportingFeatures:feature];
     }
 }
+*/
 - (void)showPhotoLibraryAlert
 {
     UIAlertController *photoLibraryStatusNotificationController = [UIAlertController alertControllerWithTitle:@"Success" message:@"Screenshot was stored in your photo library" preferredStyle:UIAlertControllerStyleAlert];
