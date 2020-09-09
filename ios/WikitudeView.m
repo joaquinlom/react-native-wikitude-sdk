@@ -20,21 +20,25 @@
        */
         NSURL *url = [NSURL URLWithString:self.tmp_url];
         if(url && url.scheme && url.host){
+            
             self.wtNavigation =  [self.architectView loadArchitectWorldFromURL:url];
         }else{
             NSURL *bundle = [[NSBundle mainBundle] bundleURL];
             NSURL *file = [NSURL URLWithString: [NSString stringWithFormat:@"../%@", self.tmp_url] relativeToURL:bundle];
             NSURL *absoluteFile = [file absoluteURL];
+             
             self.wtNavigation =  [self.architectView loadArchitectWorldFromURL: [[NSBundle mainBundle] URLForResource:self.tmp_url withExtension:@"html"] ];
         }
        
         
         self.tmp_url = @"";
+        /*
         dispatch_async(dispatch_get_main_queue(), ^{
-            if(self.hasCameraPermission)
+           if(self.hasCameraPermission)
                [self startWikitudeSDKRendering];
         });
-        
+        */
+        //self.architectView.requiredFeatures = WTFeature_ImageTracking;
         return self;
     }
     return self;
@@ -48,23 +52,33 @@
 
 - (void)didReceiveApplicationDidBecomeActiveNotification:(NSNotification *)notification
 {
+    /*
     dispatch_async(dispatch_get_main_queue(), ^{
         if(self.architectView != nil){
             if([self.architectView isRunning] == NO){
                 if(self.hasCameraPermission)
-                  [self stopWikitudeSDKRendering];
+                  [self startWikitudeSDKRendering];
             }
         }
-        
-    });
+    });*/
+    if(self.architectView != nil){
+        if([self.architectView isRunning] == NO){
+                    if(self.hasCameraPermission)
+                       [self startWikitudeSDKRendering];
+               }
+        dispatch_async(dispatch_get_main_queue(), ^{
+       
+        });
+    }
 }
 - (void)didReceiveApplicationWillResignActiveNotification:(NSNotification *)notification
 {
     if(self.architectView != nil){
+        if([self.architectView isRunning] != NO){
+                       [self stopWikitudeSDKRendering];
+                   }
         dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.architectView isRunning] != NO){
-                [self stopWikitudeSDKRendering];
-            }
+           
         });
     }
     
@@ -75,10 +89,16 @@
         [self.architectView setLicenseKey:licenseKey];
 }
 
-- (void)setFeatures:(NSInteger *)feature
+- (void)setFeature:(NSInteger *)feature
 {
-    
+    NSLog(@"Changing Feature: %@",feature);
     //self.requiredFeatures = feature;
+    if( self.architectView != nil){
+        NSLog(@"Changing Feature: %@",feature);
+        self.architectView.requiredFeatures = feature;
+        [self.architectView reloadArchitectWorld];
+    }
+        
 }
 
 -(void)setUrl:(NSString *)url
@@ -92,19 +112,33 @@
     self.tmp_url = url;
     @try {
         //NSLog(url);
+        
         if( self.architectView != nil){
-            NSLog(@"loadArchitectWorld");
             
+            if([self.architectView isRunning]){
+                NSLog(@"Native loadArchitectWorld, trying to destory all");
+                [self.architectView callJavaScript:@"AR.context.destroyAll();"];
+            }else{
+                [self startWikitudeSDKRendering];
+            }
+                
             NSURL *url2 = [NSURL URLWithString:url];
                   if(url2 && url2.scheme && url2.host){
+                      NSLog(@"Es Web url: %@",url2);
                       self.wtNavigation =  [self.architectView loadArchitectWorldFromURL:url2];
                   }else{
+                      
                       NSURL *bundle = [[NSBundle mainBundle] bundleURL];
                       NSURL *file = [NSURL URLWithString:[NSString stringWithFormat:@"../%@", self.tmp_url] relativeToURL:bundle];
                       NSURL *absoluteFile = [file absoluteURL];
+                      NSLog(@"Es Local url: %@",self.tmp_url);
                       self.wtNavigation =  [self.architectView loadArchitectWorldFromURL: [[NSBundle mainBundle] URLForResource:self.tmp_url withExtension:@"html"] ];
                   }
-            //[self.architectView loadArchitectWorldFromURL:[NSURL URLWithString:url]];
+            
+            //[self stopWikitudeSDKRendering];
+            
+            
+            
         }
     }
     @catch (NSException *exception) {
@@ -121,12 +155,15 @@
     /* To check if the WTArchitectView is currently rendering, the isRunning property can be used */
     if ( ![self.architectView isRunning] ) {
         
-        [self.architectView start:^(WTArchitectStartupConfiguration * _Nonnull configuration) {
+        [self.architectView start:^(WTArchitectStartupConfiguration *configuration) {
             
         } completion:^(BOOL isRunning, NSError * _Nonnull error) {
                 if ( !isRunning ) {
                                NSLog(@"WTArchitectView could not be started. Reason: %@", [error localizedDescription]);
                            }
+                if(error){
+                    NSLog([error localizedDescription]);
+                }
               NSLog(@"Corriendo Completion");
         }];
 
@@ -159,13 +196,14 @@
         }
 }
 - (void)callJavaScript:(NSString *)js{
-    
-    if ( [_architectView isRunning] ) {
-        [_architectView callJavaScript:js];
+    //NSLog(@"BEFORE CONDITION: %@",js);
+    if ( [self.architectView isRunning] ) {
+        NSLog(@"JS: %@",js);
+        [self.architectView  callJavaScript:js];
     }
 }
 
 -(BOOL) isDeviceSupportingFeatures:(int *) feature{
-    return YES;
+    return TRUE;
 }
 @end
