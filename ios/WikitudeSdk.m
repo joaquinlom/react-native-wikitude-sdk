@@ -30,20 +30,25 @@
 #define ERROR_PICKER_UNAUTHORIZED_KEY @"E_PERMISSION_MISSING"
 #define ERROR_PICKER_UNAUTHORIZED_MSG @"Cannot access images. Please allow access if you want to be able to select images."
 
-@interface RNWikitude  () <WTArchitectViewDelegate>
+@interface RNWikitude  () <WTArchitectViewDelegate, WTArchitectViewDebugDelegate>
 
 @end
 
-@implementation RNWikitude 
+@implementation RNWikitude
+
+ bool hasListeners;
+
+
 - (dispatch_queue_t)methodQueue
 {
-    return dispatch_get_main_queue();
+    //return dispatch_get_main_queue();
+    return self.bridge.uiManager.methodQueue;
 }
 RCT_EXPORT_MODULE()
 
 
 
-@synthesize bridge = _bridge;
+//@synthesize bridge = _bridge;
 - (instancetype)init
 {
     if (self = [super init]) {
@@ -69,9 +74,10 @@ RCT_EXPORT_MODULE()
     [self checkCameraPermissions:^(BOOL granted) {
            self.hasCameraPermission = &(granted);
     }];
+    /*
     if(_wikitudeView != nil){
         return _wikitudeView;
-    }
+    }*/
    _wikitudeView = [WikitudeView new];
     _wikitudeView.hasCameraPermission = self.hasCameraPermission;
    _wikitudeView.architectView.delegate = self;
@@ -83,6 +89,19 @@ RCT_EXPORT_MODULE()
 {
   return YES;
 }
+
+// Will be called when this module's first listener is added.
+-(void)startObserving {
+    hasListeners = YES;
+    // Set up any upstream listeners or background tasks as necessary
+}
+
+// Will be called when this module's last listener is removed, or on dealloc.
+-(void)stopObserving {
+    hasListeners = NO;
+    // Remove upstream listeners, stop unnecessary background tasks
+}
+
 RCT_EXPORT_VIEW_PROPERTY(licenseKey,NSString);
 RCT_EXPORT_VIEW_PROPERTY(url,NSString);
 RCT_EXPORT_VIEW_PROPERTY(feature,NSInteger);
@@ -157,71 +176,173 @@ RCT_EXPORT_METHOD(resumeAR:(nonnull NSNumber *)reactTag){
     /*if ( [_wikitudeView isRunning] != NO ) {
                 [_wikitudeView startWikitudeSDKRendering];
     }*/
+    /*
     dispatch_async(dispatch_get_main_queue(), ^{
         WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
         
         [component startWikitudeSDKRendering];
         //[self->_wikitudeView callJavaScript:js];
     });
+    */
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+      UIView *view = viewRegistry[reactTag];
+        NSLog(@"View: Resume: %@",view);
+      if (![view isKindOfClass:[WikitudeView class]]) {
+        NSLog(@"expecting UIView, got: %@", view);
+      }
+      else {
+        WikitudeView *component = (WikitudeView *)view;
+        NSLog(@"resume UIView", component);
+          //[component startWikitudeSDKRendering];
+      }
+    }];
 }
 RCT_EXPORT_METHOD(stopAR:(nonnull NSNumber *)reactTag){
     /*if(_wikitudeView != nil){
         if([_wikitudeView isRunning] != NO){
         [_wikitudeView stopWikitudeSDKRendering];
         }
-    }
-    */
+    }*/
+    
+    
+    /*
     dispatch_async(dispatch_get_main_queue(), ^{
         WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
+         if(component == nil){
+            NSLog(@"Component is nil at stop");
+        }
         if([component isRunning] != NO){
             [component stopWikitudeSDKRendering];
         }
-        
         //[self->_wikitudeView callJavaScript:js];
-    });
-}
-RCT_EXPORT_METHOD(captureScreen:(BOOL *)mode reactTag:(nonnull NSNumber *)reactTag){
-    /*if( _wikitudeView != nil){
-        [_wikitudeView callJavaScript:js];
-    }
-    */
+    });*/
     
+    /*
+     NSLog(@"React Tag: stopAR: %@",reactTag);
+     WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
+      NSLog(@"component: stopAR: %@",component);
+*/
+/*
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+        WikitudeView *view = viewRegistry[reactTag];
+        if (!view || ![view isKindOfClass:[WikitudeView class]]) {
+            NSLog(@"Cannot find WikitudeView with tag #%@", reactTag);
+            return;
+        }
+        [view stopWikitudeSDKRendering];
+    }];
+    */
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+      UIView *view = viewRegistry[reactTag];
+        NSLog(@"View: stopAR: %@",view);
+      if (![view isKindOfClass:[WikitudeView class]]) {
+        NSLog(@"expecting UIView, got: %@", view);
+      }
+      else {
+        WikitudeView *component = (WikitudeView *)view;
+         NSLog(@"stoping UIView", component);
+          [component stopWikitudeSDKRendering];
+      }
+    }];
+}
+RCT_EXPORT_METHOD(captureScreen:(nonnull NSNumber *)reactTag mode:(BOOL *)mode){
+    /*if( _wikitudeView != nil){
+        [_wikitudeView captureScreen:mode];
+    }*/
+    
+    /*
     dispatch_async(dispatch_get_main_queue(), ^{
         WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
         NSLog(@"capture rct export method");
         [component captureScreen:mode];
          [_wikitudeView captureScreen:mode];
-    });
+    });*/
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+      UIView *view = viewRegistry[reactTag];
+      if (![view isKindOfClass:[WikitudeView class]]) {
+        RCTLog(@"expecting UIView, got: %@", view);
+      }
+      else {
+        WikitudeView *component = (WikitudeView *)view;
+         [component captureScreen:mode];
+      }
+    }];
 }
-RCT_EXPORT_METHOD(callJavascript:(NSString *)js reactTag:(nonnull NSNumber *)reactTag){
-    /*if( _wikitudeView != nil){
+RCT_EXPORT_METHOD(callJavascript:(nonnull NSNumber *)reactTag js:(NSString *)js){
+    /*
+    if( _wikitudeView != nil){
         [_wikitudeView callJavaScript:js];
-    }
-    */
+    }*/
+    /*
     dispatch_async(dispatch_get_main_queue(), ^{
         WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
-        
+        NSLog(@"RCT JS: %@",js);
+        if(component == nil){
+            NSLog(@"Component is nil");
+        }
         [component callJavaScript:js];
         //[self->_wikitudeView callJavaScript:js];
-    });
+    });*/
+    NSLog(@"RCT JS: %@",js);
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+      UIView *view = viewRegistry[reactTag];
+      if (![view isKindOfClass:[WikitudeView class]]) {
+        RCTLog(@"expecting UIView, got: %@", view);
+      }
+      else {
+        NSLog(@"RCT JS: %@",js);
+        WikitudeView *component = (WikitudeView *)view;
+          NSLog(@"RCT JS: %@",component);
+        [component callJavaScript:js];
+      }
+    }];
 }
-RCT_EXPORT_METHOD(setUrl:(NSString *)url reactTag:(nonnull NSNumber *)reactTag ){
+RCT_EXPORT_METHOD(setUrl:(nonnull NSNumber *)reactTag  url:(NSString *)url ){
     /*if(_wikitudeView != nil){
         [_wikitudeView setUrl:url];
     }*/
-
+    /*
     dispatch_async(dispatch_get_main_queue(), ^{
-           WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
-           
-        [component setUrl:url];
+        WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
+        if(component == nil){
+            NSLog(@"Wrong tag %@",reactTag);
+        }else{
+             [component setUrl:url];
+        }
+       
         //[self->_wikitudeView setUrl:url];
     });
+    */
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+      UIView *view = viewRegistry[reactTag];
+      if (![view isKindOfClass:[WikitudeView class]]) {
+        RCTLog(@"expecting UIView, got: %@", view);
+      }
+      else {
+        WikitudeView *component = (WikitudeView *)view;
+        [component setUrl:url];
+      }
+    }];
 }
-RCT_EXPORT_METHOD(injectLocation:(double *)latitude longitude:(double *)longitude reactTag:(nonnull NSNumber *)reactTag){
-    if(_wikitudeView != nil){
-        [_wikitudeView injectLocationWithAltitude:latitude longitude:longitude];
-    }
+RCT_EXPORT_METHOD(injectLocation:(nonnull NSNumber *)reactTag latitude:(double *)latitude longitude:(double *)longitude){
+     /*
+    WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
+    //if(component != nil){
+        [component injectLocationWithAltitude:latitude longitude:longitude];
+    //}
+    */
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+      UIView *view = viewRegistry[reactTag];
+      if (![view isKindOfClass:[WikitudeView class]]) {
+        RCTLog(@"expecting UIView, got: %@", view);
+      }
+      else {
+        WikitudeView *component = (WikitudeView *)view;
+        [component injectLocationWithAltitude:latitude longitude:longitude];
+      }
+    }];
 }
+/*
 RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature (RCTResponseSenderBlock)callback)
 {
   if([_wikitudeView isDeviceSupportingFeatures:feature]){
@@ -230,13 +351,12 @@ RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature (RCTResponseSenderBloc
       callback(@[[NSNull null], NO]);
   }
 }
-/*
+*/
 RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature reactTag:(nonnull NSNumber *)reactTag){
     if(_wikitudeView != nil){
         [_wikitudeView isDeviceSupportingFeatures:feature];
     }
 }
-*/
 - (void)showPhotoLibraryAlert
 {
     UIAlertController *photoLibraryStatusNotificationController = [UIAlertController alertControllerWithTitle:@"Success" message:@"Screenshot was stored in your photo library" preferredStyle:UIAlertControllerStyleAlert];
@@ -244,6 +364,7 @@ RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature reactTag:(nonnull NSNu
 }
 - (void)architectView:(WTArchitectView *)architectView didCaptureScreenWithContext:(NSDictionary *)context
 {
+
     //WTScreenshotSaveMode saveMode = [[context objectForKey:kWTScreenshotSaveModeKey] unsignedIntegerValue];
     NSLog(@"didCaptureScreenWithContext");
     UIImage *image = [context objectForKey:kWTScreenshotImageKey];
@@ -253,6 +374,8 @@ RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature reactTag:(nonnull NSNu
             @"success": @"true",
             @"image":  [NSString stringWithFormat:@"%@%@", @"data:image/png;base64,", base]
     });
+    
+
 }
 
 - (void)architectView:(WTArchitectView *)architectView didFailCaptureScreenWithError:(NSError *)error
@@ -261,6 +384,8 @@ RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature reactTag:(nonnull NSNu
     _wikitudeView.onScreenCaptured(@{
             @"success": @"false"
     });
+     
+
 }
 
 - (void)architectView:(WTArchitectView *)architectView receivedJSONObject:(NSDictionary *)jsonObject
@@ -269,6 +394,8 @@ RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature reactTag:(nonnull NSNu
     //dispatch_async(dispatch_get_main_queue(), ^{
         _wikitudeView.onJsonReceived(jsonObject);
    // });
+     
+
 }
 
 - (void)architectView:(WTArchitectView *)architectView didFinishLoadArchitectWorldNavigation:(WTNavigation *)navigation {
@@ -278,6 +405,8 @@ RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature reactTag:(nonnull NSNu
     _wikitudeView.onFinishLoading(@{
     @"success": @YES
     });
+    
+
     //[architectView callJavaScript: @"alert('desde RNWikitude')"];
     /*dispatch_async(dispatch_get_main_queue(), ^{
        // _wikitudeView.onFinishLoading(@{
@@ -295,8 +424,7 @@ RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature reactTag:(nonnull NSNu
 
     NSLog(@"architect view '%@' \ndid fail to load navigation '%@' \nwith error '%@'", architectView, navigation, error);
     NSLog(@"En delegate: Architect World from URL '%@' could not be loaded. Reason: %@", navigation, [error localizedDescription]);
-    
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         _wikitudeView.onFailLoading(@{
                                         @"success": @NO,
@@ -305,7 +433,17 @@ RCT_EXPORT_METHOD(isDeviceSupportingFeatures:(int)feature reactTag:(nonnull NSNu
         
     });
     
+
+    
 }
 
+/*Debug*/
+- (void)architectView:(WTArchitectView *)architectView didEncounterInternalError:(NSError *)error{
+ NSLog(@"didEncounterInternalError %@",[error localizedDescription]);
+}
+
+- (void)architectView:(WTArchitectView *)architectView didEncounterInternalWarning:(WTWarning *)warning{
+NSLog(@"didEncounterInternalWarning %@",warning );
+}
 
 @end
