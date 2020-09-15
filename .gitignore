@@ -27,7 +27,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-ios/WikitudeSDK.framework
+ios/WikitudeSDK.framework/WikitudeSDK
 
 # Android/IntelliJ
 #
