@@ -32,12 +32,20 @@ namespace wikitude { namespace sdk {
 
     namespace impl {
 
+<<<<<<< HEAD
+=======
+        class ImageTracker;
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
         class WT_EXPORT_API ImageTrackingPluginModule : public TrackingPluginModule {
         public:
             virtual ~ImageTrackingPluginModule() = default;            
 
+<<<<<<< HEAD
             virtual universal_sdk::ImageState getTrackingState() const = 0;
+=======
+            virtual universal_sdk::ImageState getTrackingState(ImageTracker& imageTracker_) const = 0;
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
             virtual sdk::Matrix4 getViewMatrix() const = 0;
         };
     }

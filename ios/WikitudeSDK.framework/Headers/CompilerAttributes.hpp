@@ -20,8 +20,17 @@
 #endif
 
 #if defined(_WIN32) || defined(__WIN32__)
+<<<<<<< HEAD
     #define WT_EXPORT_API __declspec(dllexport)
 #else
+=======
+#if defined(WKTD_EXPORT_LIBRARY_API)
+    #define WT_EXPORT_API __declspec(dllexport)
+#else
+    #define WT_EXPORT_API
+#endif
+#else
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
     #define WT_EXPORT_API __attribute__ ((visibility("default")))
 #endif
 

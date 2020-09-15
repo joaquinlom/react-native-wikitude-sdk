@@ -13,6 +13,10 @@
 
 #include "Geometry.hpp"
 #include "CameraPosition.hpp"
+<<<<<<< HEAD
+=======
+#include "CompilerAttributes.hpp"
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
 #include "PlatformCameraHandler.hpp"
 
@@ -38,7 +42,11 @@ namespace wikitude { namespace sdk {
          *
          * PlatformComponent developer typically create a subclass and add more getter that are related to platform specific camera information.
          */
+<<<<<<< HEAD
         class CameraParameters {
+=======
+        class WT_EXPORT_API CameraParameters {
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         public:
 
             /**

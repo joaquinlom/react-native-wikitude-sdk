@@ -22,6 +22,10 @@
 #include "RecognizedTargetsBucket.hpp"
 #include "CameraFrameInputPluginModule.hpp"
 #include "DeviceMotionInputPluginModule.hpp"
+<<<<<<< HEAD
+=======
+#include "SDKEdition.hpp"
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 #include "ImageTrackingPluginModule.hpp"
 #include "ObjectTrackingPluginModule.hpp"
 #include "InstantTrackingPluginModule.hpp"
@@ -71,6 +75,13 @@ namespace wikitude {
                 virtual void initialize(const std::string& temporaryDirectory_, PluginParameterCollection& pluginParameterCollection_);
 
                 /**
+<<<<<<< HEAD
+=======
+                 * Will be called after the Plugin was initialzed to inform about the SDK Edition that is being used.
+                 */
+                virtual void setSDKEdition(SDKEdition sdkEdition_);
+                /**
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
                  * Will be called every time the Wikitude Engine pauses.
                  */
                 virtual void pause();

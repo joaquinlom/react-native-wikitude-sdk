@@ -68,7 +68,6 @@
             }
         }
     });*/
-
     if(self.architectView != nil){
         if([self.architectView isRunning] == NO){
                     if(self.hasCameraPermission)

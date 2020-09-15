@@ -15,6 +15,11 @@
 #include <memory>
 #include <sstream>
 
+<<<<<<< HEAD
+=======
+#include "CompilerAttributes.hpp"
+
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
 namespace wikitude { namespace sdk {
 
@@ -25,14 +30,27 @@ namespace wikitude { namespace sdk {
          * A simple data type to represent an error. Domains help to reduce the amount of unique codes by introducing an additional layer of separation.
          * Underlying erros can be specified to build up a chain of erros that explain the problem from various different layers. This should help explain where the error originates from.
         */
+<<<<<<< HEAD
         class Error {
         public:
             Error(const int code_, const std::string& domain_, const std::string& message_, std::unique_ptr<Error> underlyingError_ = nullptr);
+=======
+        class WT_EXPORT_API Error {
+        public:
+            /* Use this to construct an empty error, if certain APIs require an error object even if no error was actually triggered */
+            static Error NoError();
+            
+            Error(const int code_, const std::string& domain_, const std::string& message_, std::unique_ptr<Error> underlyingError_ = nullptr, bool suppressErrorLogging_ = false);
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
             Error(const Error& other_);
             virtual ~Error() = default;
 
             Error& operator = (const Error& other_);
+<<<<<<< HEAD
             friend std::ostream& operator << (std::ostream& os_, const Error& error_);
+=======
+            friend WT_EXPORT_API std::ostream& operator << (std::ostream& os_, const Error& error_);
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
 
             int getCode() const;
@@ -71,6 +89,12 @@ namespace wikitude { namespace sdk {
 
         private:
             std::string getUnderlyingFormattedDescription() const;
+<<<<<<< HEAD
+=======
+            
+            /* This is private in order to force the usage of the more explicit NoError static function */
+            Error();
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
         protected:
             int               _code;

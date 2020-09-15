@@ -11,6 +11,12 @@
 
 #ifdef __cplusplus
 
+<<<<<<< HEAD
+=======
+#include "CompilerAttributes.hpp"
+
+
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 namespace wikitude {
     namespace sdk {
         namespace impl {
@@ -31,7 +37,11 @@ namespace wikitude { namespace sdk {
     namespace impl {
 
 
+<<<<<<< HEAD
         class RenderingParameters {
+=======
+        class WT_EXPORT_API RenderingParameters {
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         public:
             RenderingParameters(universal_sdk::RenderingParametersInternal& internalRenderingParameters_);
 

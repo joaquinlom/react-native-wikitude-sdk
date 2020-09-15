@@ -18,6 +18,10 @@
 #include "InstantTarget.hpp"
 #include "InitializationPose.hpp"
 #include "Plane.hpp"
+<<<<<<< HEAD
+=======
+#include "CompilerAttributes.hpp"
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
 
 namespace wikitude { namespace sdk {
@@ -25,7 +29,11 @@ namespace wikitude { namespace sdk {
     namespace impl {
 
         class Matrix4;
+<<<<<<< HEAD
         class RecognizedTargetsBucket {
+=======
+        class WT_EXPORT_API RecognizedTargetsBucket {
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         public:
             virtual ~RecognizedTargetsBucket() = default;
 

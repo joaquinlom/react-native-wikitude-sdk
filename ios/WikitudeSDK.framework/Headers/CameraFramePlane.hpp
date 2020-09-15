@@ -11,6 +11,11 @@
 
 #ifdef __cplusplus
 
+<<<<<<< HEAD
+=======
+#include "CompilerAttributes.hpp"
+
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 namespace wikitude { namespace sdk {
 
     namespace impl {
@@ -18,7 +23,11 @@ namespace wikitude { namespace sdk {
         /** @class CameraFramePlane
          *  @brief A single plane of image data.
          */
+<<<<<<< HEAD
         class CameraFramePlane {
+=======
+        class WT_EXPORT_API CameraFramePlane {
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         public:
             CameraFramePlane(const void* data_, unsigned int dataSize_, int pixelStride_ = -1, int rowStride_ = -1);
             virtual ~CameraFramePlane() = default;

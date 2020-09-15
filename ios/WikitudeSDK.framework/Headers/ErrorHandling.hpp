@@ -20,10 +20,17 @@ namespace wikitude { namespace sdk {
     namespace impl {
 
 
+<<<<<<< HEAD
         struct CallStatus {
         public:
             static CallStatus Success() {
                 return {true, {0, "", ""}};
+=======
+        struct WT_EXPORT_API CallStatus {
+        public:
+            static CallStatus Success() {
+                return {true, Error::NoError()};
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
             }
             
         public:
@@ -43,10 +50,17 @@ namespace wikitude { namespace sdk {
 
 
         template <typename T>
+<<<<<<< HEAD
         struct CallValue {
         public:
             static CallValue<T> SuccessCallValue(T value_) {
                 return {value_, {true, {0, "", ""}}};
+=======
+        struct WT_EXPORT_API CallValue {
+        public:
+            static CallValue<T> SuccessCallValue(T value_) {
+                return {value_, {true, Error::NoError()}};
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
             }
 
         public:

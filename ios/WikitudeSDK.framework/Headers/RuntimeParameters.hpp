@@ -12,6 +12,10 @@
 #ifdef __cplusplus
 
 #include "PlatformRuntimeHandler.hpp"
+<<<<<<< HEAD
+=======
+#include "CompilerAttributes.hpp"
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
 
 namespace wikitude {
@@ -34,7 +38,11 @@ namespace wikitude { namespace sdk {
          *
          * PlatformComponent developer typically create a subclass and add more getter that are related to platform specific information.
          */
+<<<<<<< HEAD
         class RuntimeParameters {
+=======
+        class WT_EXPORT_API RuntimeParameters {
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         public:
 
             /**

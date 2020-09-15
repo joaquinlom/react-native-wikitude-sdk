@@ -15,6 +15,11 @@
 #include <functional>
 
 #include "Error.hpp"
+<<<<<<< HEAD
+=======
+#include "ErrorHandling.hpp"
+#include "CameraFocusMode.hpp"
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 #include "CameraFrame.hpp"
 #include "CompilerAttributes.hpp"
 
@@ -49,6 +54,14 @@ namespace wikitude { namespace sdk {
             virtual void resumeCameraFrameUpdates();
 
             /**
+<<<<<<< HEAD
+=======
+             * Implement this method if this plugin module supports camera focus mode changes.
+             */
+            virtual sdk::CallStatus setFocusMode(CameraFocusMode focusMode_);
+
+            /**
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
              * Default: false
              */
             bool requestsCameraFrameRendering();
@@ -57,6 +70,10 @@ namespace wikitude { namespace sdk {
             void registerOnPluginCameraReleasedHandler(std::function<void()> onPluginCameraReleasedHandler_);
             void registerNotifyNewUnmanagedCameraFrameHandler(std::function<void(const sdk::CameraFrame& cameraFrame_)> notifyNewUnmanagedCameraFrameHandler_);
             void registerCameraToSurfaceAngleChangedHandler(std::function<void(float cameraToSurfaceAngle_)> cameraToSurfaceAngleChangedHandler_);
+<<<<<<< HEAD
+=======
+            void registerOnPluginCameraErrorHandler(std::function<void(const sdk::Error& error_)> onPluginCameraErrorHandler_);
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
         protected:
             /**
@@ -72,6 +89,11 @@ namespace wikitude { namespace sdk {
 
             void setCameraToSurfaceAngle(float cameraToSurfaceAngle_);
 
+<<<<<<< HEAD
+=======
+            void onPluginCameraError(const sdk::Error& error_);
+
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         protected:
             bool                                            _requestsCameraFrameRendering = false;
             bool                                            _userDisabledCameraFrameUpdates = false;
@@ -80,6 +102,10 @@ namespace wikitude { namespace sdk {
             std::function<void()>                           _onPluginCameraReleasedHandler;
             std::function<void(const sdk::CameraFrame&)>    _notifyNewUnmanagedCameraFrameHandler;
             std::function<void(float)>                      _cameraToSurfaceAngleChangedHandler;
+<<<<<<< HEAD
+=======
+            std::function<void(const sdk::Error&)>          _onPluginCameraErrorHandler;
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         };
     }
     using impl::CameraFrameInputPluginModule;

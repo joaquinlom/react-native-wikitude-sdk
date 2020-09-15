@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { NativeModules ,requireNativeComponent ,findNodeHandle,UIManager,PermissionsAndroid,Button, Platform,} from 'react-native';
+=======
+import { NativeModules ,requireNativeComponent ,findNodeHandle,UIManager,PermissionsAndroid,Button, Platform} from 'react-native';
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 import React from 'react';
 const { WikitudeSdk } = NativeModules;
 import PropTypes from 'prop-types';
@@ -35,6 +39,7 @@ class WikitudeView extends React.Component {
           console.warn(err);
         }
       }
+<<<<<<< HEAD
       console.log("didmount Wikitude SDK index.js")
       //Sometimes the resume is not calling because the references is wrong
       //this.resumeRendering();
@@ -76,6 +81,19 @@ class WikitudeView extends React.Component {
     */
     
     
+=======
+      //console.log("didmount Wikitude SDK index.js")
+      //this.resumeRendering();
+    }
+    componentWillUnmount(){
+      console.log("Unmounting SDK index.js")
+      this.stopRendering();
+    }
+    componentDidUpdate(){
+      console.log("resume Wikitude SDK index.js")
+      //this.resumeRendering();
+    }
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
     requestPermission = function(){
       if(Platform.OS === 'android'){
         try {
@@ -303,7 +321,10 @@ class WikitudeView extends React.Component {
     onFinishLoading:PropTypes.func,
     onFailLoading:PropTypes.func,
     onScreenCaptured:PropTypes.func,
+<<<<<<< HEAD
     isPOI: PropTypes.bool
+=======
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
   };
   
 var WKTView = requireNativeComponent('RNWikitude', WikitudeView);

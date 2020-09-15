@@ -13,6 +13,11 @@
 
 #include <functional>
 
+<<<<<<< HEAD
+=======
+#include "CompilerAttributes.hpp"
+
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
 namespace wikitude { namespace sdk {
 
@@ -44,7 +49,11 @@ namespace wikitude { namespace sdk {
         /**
          * This wrapper class simply forwards calls to the contained implementation according to the pimpl-idiom. This is requires as the interals of the PositionableInternal class are not to be exposed publicly.
          */
+<<<<<<< HEAD
         class Positionable {
+=======
+        class WT_EXPORT_API Positionable {
+>>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         public:
 
             /**
