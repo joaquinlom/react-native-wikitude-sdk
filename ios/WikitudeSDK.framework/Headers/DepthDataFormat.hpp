@@ -11,15 +11,12 @@
 
 #ifdef __cplusplus
 
-#include "CompilerAttributes.hpp"
-
-
 namespace wikitude { namespace sdk {
 
     namespace impl {
 
 
-        enum class WT_EXPORT_API DepthDataFormat {
+        enum class DepthDataFormat {
             FLOAT_32,
             FLOAT_32_NORMALIZED,
             INTEGER_8,

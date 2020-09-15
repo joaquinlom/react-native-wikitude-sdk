@@ -12,7 +12,6 @@
 #ifdef __cplusplus
 
 #include "PluginModule.hpp"
-#include "CompilerAttributes.hpp"
 
 
 namespace wikitude { namespace sdk {
@@ -20,7 +19,7 @@ namespace wikitude { namespace sdk {
     namespace impl {
 
 
-        class WT_EXPORT_API RenderingPluginModule : public PluginModule {
+        class RenderingPluginModule : public PluginModule {
         public:
             virtual ~RenderingPluginModule() = default;
         };

@@ -14,7 +14,6 @@
 #include <string>
 
 #include "Geometry.hpp"
-#include "CompilerAttributes.hpp"
 
 
 namespace wikitude { namespace sdk {
@@ -36,8 +35,7 @@ namespace wikitude { namespace sdk {
           * that encompasses the object target at it’s outer dimensions.
           */
         class Matrix4;
-        class ObjectTracker;
-        class WT_EXPORT_API ObjectTarget{
+        class ObjectTarget{
         public:
             virtual ~ObjectTarget() = default;
 
@@ -46,18 +44,6 @@ namespace wikitude { namespace sdk {
              *	@return The name of the image target.
              */
             virtual const std::string& getName() const = 0;
-
-            /** @brief Gets the unique id of the ObjectTarget. This unique id is incremented with every recognition of the same target.
-             *
-             * @return The unique id of the object target.
-             */
-            virtual long getUniqueId() const = 0;
-
-            /** @brief Gets the address of the Tracker the target has been created by. Use to distinguish between trackers in case multiple simultaneous trackers are used.
-             *
-             * @return The address of the tracker the target has been created by
-             */
-            virtual const ObjectTracker* getTracker() const = 0;
             
             /** @brief Gets the depth factor that needs to be applied to the matrix to get real world scaling.
              *

@@ -6,8 +6,11 @@
 
 
 @interface WikitudeView : UIView <WTArchitectViewDelegate>
+
+    @property (nonatomic, assign) CGRect frame;
     @property (nonatomic, assign) NSString *url;
     @property (nonatomic, assign) NSString *tmp_url;
+    @property (nonatomic, assign) NSURL *architectWorldUrl;
     @property (nonatomic, assign) NSString *licenseKey;
     @property (nonatomic, assign) NSInteger *feature;
     @property BOOL hasCameraPermission;
@@ -21,6 +24,7 @@
 
     -(void)startWikitudeSDKRendering;
     -(void)setUrl:(NSString *)url;
+    -(void)loadArchitect:(NSString *)url;
     -(void)injectLocationWithAltitude:(double *)latitude longitude:(double *)longitude;
     -(void)callJavaScript:(NSString *)js;
     -(void)stopWikitudeSDKRendering;

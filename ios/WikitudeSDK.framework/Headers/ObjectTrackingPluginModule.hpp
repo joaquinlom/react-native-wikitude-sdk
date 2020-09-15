@@ -20,10 +20,8 @@ namespace wikitude {
     namespace sdk {
         namespace impl {
             class ManagedCameraFrame;
-            class ObjectTracker;
         }
         using impl::ManagedCameraFrame;
-        using impl::ObjectTracker;
     }
 }
 
@@ -36,7 +34,7 @@ namespace wikitude { namespace sdk {
         public:
             virtual ~ObjectTrackingPluginModule() = default;
 
-            virtual universal_sdk::ObjectState getTrackingState(sdk::ObjectTracker& objectTracker_) const = 0;
+            virtual universal_sdk::ObjectState getTrackingState() const = 0;
             virtual sdk::Matrix4 getViewMatrix() const = 0;
         };
     }

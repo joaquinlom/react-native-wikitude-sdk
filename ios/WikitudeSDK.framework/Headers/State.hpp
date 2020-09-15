@@ -20,8 +20,6 @@
 #include "Matrix4.hpp"
 #include "Timestamp.hpp"
 #include "PlaneType.hpp"
-#include "ImageTargetType.hpp"
-#include "CompilerAttributes.hpp"
 
 
 namespace aramis {
@@ -35,7 +33,7 @@ namespace wikitude { namespace universal_sdk {
     namespace impl {
 
 
-        struct WT_EXPORT_API CommonProperties {
+        struct CommonProperties {
         public:
             CommonProperties(const sdk::Matrix4& modelMatrix_, const sdk::Matrix4& viewMatrix_);
             CommonProperties(aramis::TargetState& targetState_);
@@ -45,37 +43,32 @@ namespace wikitude { namespace universal_sdk {
             sdk::Matrix4    _viewMatrix;
         };
 
-        struct WT_EXPORT_API TargetProperties {
-            TargetProperties(long dataSetId_, aramis::TargetState& targetState_);
+        struct TargetProperties {
+            TargetProperties(aramis::TargetState& targetState_);
 
-            long            _dataSetId;
             std::string     _name;
             float           _depthFactor;
             bool            _isExtended;
             int             _trackingQuality;
         };
 
-        struct WT_EXPORT_API ImageTargetState {
-            ImageTargetState(long dataSetId_, aramis::TargetState& targetState_, sdk::Rectangle<int> targetRectInCameraFrame_);
+        struct ImageTargetState {
+            ImageTargetState(aramis::TargetState& targetState_, sdk::Rectangle<int> targetRectInCameraFrame_);
 
-            CommonProperties        _commonProperties;
-            TargetProperties        _targetProperties;
-            int                     _uniqueId;
-            sdk::Size<int>          _size;
+            CommonProperties    _commonProperties;
+            TargetProperties    _targetProperties;
+            int             _uniqueId;
+            sdk::Size<int>  _size;
             mutable sdk::Millimeter _physicalHeight;
             sdk::Rectangle<int>     _targetAreaInCameraFrame;
-            sdk::ImageTargetType    _imageTargetType;
-            sdk::Millimeter         _circumferenceBase;
-            sdk::Millimeter         _circumferenceTop;
         };
 
-        struct WT_EXPORT_API ObjectTargetState {
-            ObjectTargetState(long dataSetId_, aramis::TargetState& targetState_);
+        struct ObjectTargetState {
+            ObjectTargetState(aramis::TargetState& targetState_);
 
-            CommonProperties        _commonProperties;
-            TargetProperties        _targetProperties;
-            long                    _uniqueId;
-            bool                    _valid;
+            CommonProperties    _commonProperties;
+            TargetProperties    _targetProperties;
+            bool                _valid;
             sdk::Rectangle3D<float> _boundingBox;
         };
 
@@ -87,7 +80,7 @@ namespace wikitude { namespace universal_sdk {
             bool                _valid;
         };
 
-        struct WT_EXPORT_API PlaneState {
+        struct PlaneState {
             PlaneState(aramis::Plane& plane_, InstantTargetState& instantTargetState_);
 
             CommonProperties    _commonProperties;
@@ -102,7 +95,7 @@ namespace wikitude { namespace universal_sdk {
             std::vector<sdk::Point<float>>       _convexHull;
         };
 
-        struct WT_EXPORT_API ImageState {
+        struct ImageState {
         public:
             ImageState();
             ImageState(aramis::State& state_);
@@ -113,10 +106,10 @@ namespace wikitude { namespace universal_sdk {
             long                        _processedFrameId = -1;
             sdk::Timestamp              _processedFrameTimestamp;
 
-            std::vector<ImageTargetState>      _targetStates; //TODO(DG): this should probably turn into a std::map<long, ImageTargetState>
+            std::vector<ImageTargetState>      _targetStates;
         };
 
-        struct WT_EXPORT_API ObjectState {
+        struct ObjectState {
         public:
             ObjectState();
             ObjectState(aramis::State& state_);
@@ -129,7 +122,7 @@ namespace wikitude { namespace universal_sdk {
             std::vector<ObjectTargetState>      _targetStates;
         };
 
-        struct WT_EXPORT_API InstantState {
+        struct InstantState {
         public:
             InstantState();
             InstantState(long processedFrameId_, sdk::Timestamp processedFrameTimestamp_, const sdk::Matrix4& modelMatrix_, const sdk::Matrix4& viewMatrix_, bool valid_);

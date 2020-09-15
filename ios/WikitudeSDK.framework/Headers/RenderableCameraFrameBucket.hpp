@@ -14,7 +14,6 @@
 #include <functional>
 
 #include "Error.hpp"
-#include "CompilerAttributes.hpp"
 
 
 namespace wikitude { namespace sdk {
@@ -23,7 +22,7 @@ namespace wikitude { namespace sdk {
 
 
         class RenderableCameraFrame;
-        class WT_EXPORT_API RenderableCameraFrameBucket {
+        class RenderableCameraFrameBucket {
         public:
             virtual ~RenderableCameraFrameBucket() = default;
             

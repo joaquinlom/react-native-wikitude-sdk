@@ -10,6 +10,7 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if ((self = [super initWithFrame:frame])) {
+        self.frame = frame;
         self.architectView = [[WTArchitectView alloc] initWithFrame:frame];        
         [self addSubview: [self architectView]];   
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveApplicationWillResignActiveNotification:) name:UIApplicationWillResignActiveNotification object:nil];
@@ -21,13 +22,13 @@
         NSURL *url = [NSURL URLWithString:self.tmp_url];
         if(url && url.scheme && url.host){
             
-            self.wtNavigation =  [self.architectView loadArchitectWorldFromURL:url];
+            //self.wtNavigation =  [self.architectView loadArchitectWorldFromURL:url];
         }else{
             NSURL *bundle = [[NSBundle mainBundle] bundleURL];
             NSURL *file = [NSURL URLWithString: [NSString stringWithFormat:@"../%@", self.tmp_url] relativeToURL:bundle];
             NSURL *absoluteFile = [file absoluteURL];
              
-            self.wtNavigation =  [self.architectView loadArchitectWorldFromURL: [[NSBundle mainBundle] URLForResource:self.tmp_url withExtension:@"html"] ];
+            //self.wtNavigation =  [self.architectView loadArchitectWorldFromURL: [[NSBundle mainBundle] URLForResource:self.tmp_url withExtension:@"html"] ];
         }
        
         
@@ -39,13 +40,19 @@
         });
         */
         //self.architectView.requiredFeatures = WTFeature_ImageTracking;
+        NSLog(@"InitWithFrame: ");
+        //[self startWikitudeSDKRendering];
         return self;
     }
     return self;
 }
+
+
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    NSLog(@"layoutSubviews: ");
     // Ensure webview takes the position and dimensions of View
     self.architectView.frame = self.bounds;
 }
@@ -61,6 +68,7 @@
             }
         }
     });*/
+
     if(self.architectView != nil){
         if([self.architectView isRunning] == NO){
                     if(self.hasCameraPermission)
@@ -85,8 +93,12 @@
 }
 - (void)setLicenseKey:(NSString *)licenseKey
 {
-    if( self.architectView != nil)
+    NSLog(@"setLicenseKey in property Native: ");
+    //self.licenseKey = licenseKey;
+    if( self.architectView != nil){
         [self.architectView setLicenseKey:licenseKey];
+    }
+        
 }
 
 - (void)setFeature:(NSInteger *)feature
@@ -96,55 +108,72 @@
     if( self.architectView != nil){
         NSLog(@"Changing Feature: %@",feature);
         self.architectView.requiredFeatures = feature;
-        [self.architectView reloadArchitectWorld];
+        //[self.architectView reloadArchitectWorld];
     }
         
 }
-
+-(void)loadArchitect:(NSString *)url{
+    NSLog(@"LoadArchitect  %@",url);
+    NSUUID *uuid = [NSUUID UUID];
+    NSString *str = [uuid UUIDString];
+    NSURL *url2 = [NSURL URLWithString:[NSString stringWithFormat:@"%@?uuid=%@", url,str]];
+    if(url2 && url2.scheme && url2.host){
+        self.architectWorldUrl = url2;
+        if([self.architectView isRunning]){
+            self.wtNavigation =  [self.architectView loadArchitectWorldFromURL:url2];
+        }
+    }else{  
+        NSURL *bundle = [[NSBundle mainBundle] bundleURL];
+        NSURL *file = [NSURL URLWithString:[NSString stringWithFormat:@"../%@", self.tmp_url] relativeToURL:bundle];
+        NSURL *absoluteFile = [file absoluteURL];
+        NSLog(@"Es Local url: %@",self.tmp_url);
+        if([self.architectView isRunning]){
+            self.wtNavigation =  [self.architectView loadArchitectWorldFromURL: [[NSBundle mainBundle] URLForResource:self.tmp_url withExtension:@"html"] ];
+        }
+    }
+    [self startWikitudeSDKRendering];
+}
 -(void)setUrl:(NSString *)url
 {
-    
-    NSLog(@"url: %@",url);
-    /*if( url != self.tmp_url){
-        
+    if(url == nil || url == @""){
+         NSLog(@"EMPTY setUrl in property Native EMPTY: %@",url);
+        return;
     }
-    */
+    NSLog(@"setUrl in property Native: %@",url);
     self.tmp_url = url;
     @try {
-        //NSLog(url);
-        
         if( self.architectView != nil){
-            
-            if([self.architectView isRunning]){
-                NSLog(@"Native loadArchitectWorld, trying to destory all");
-                [self.architectView callJavaScript:@"AR.context.destroyAll();"];
-            }else{
-                [self startWikitudeSDKRendering];
-            }
-                
-            NSURL *url2 = [NSURL URLWithString:url];
-                  if(url2 && url2.scheme && url2.host){
-                      NSLog(@"Es Web url: %@",url2);
-                      self.wtNavigation =  [self.architectView loadArchitectWorldFromURL:url2];
-                  }else{
+            NSUUID *uuid = [NSUUID UUID];
+            NSString *str = [uuid UUIDString];
+            NSURL *url2 = [NSURL URLWithString:[NSString stringWithFormat:@"%@?uuid=%@", url,str]];
+            if(url2 && url2.scheme && url2.host){
+                self.architectWorldUrl = url2;
+                if([self.architectView isRunning]){
+                    NSLog(@"Es Web url and isRunning: %@",url2);
+                    //self.wtNavigation =  [self.architectView loadArchitectWorldFromURL:url2];
+                }else{
+                    NSLog(@"Architect is not running on Set URL");
+                    //[self loadArchitect:url];
+                    //self.wtNavigation =  [self.architectView loadArchitectWorldFromURL:url2];
+                }
+                [self.architectView loadArchitectWorldFromURL:url2];
+                }else{
                       
                       NSURL *bundle = [[NSBundle mainBundle] bundleURL];
                       NSURL *file = [NSURL URLWithString:[NSString stringWithFormat:@"../%@", self.tmp_url] relativeToURL:bundle];
                       NSURL *absoluteFile = [file absoluteURL];
                       NSLog(@"Es Local url: %@",self.tmp_url);
-                      self.wtNavigation =  [self.architectView loadArchitectWorldFromURL: [[NSBundle mainBundle] URLForResource:self.tmp_url withExtension:@"html"] ];
+                     if([self.architectView isRunning]){
+                        self.wtNavigation =  [self.architectView loadArchitectWorldFromURL: [[NSBundle mainBundle] URLForResource:self.tmp_url withExtension:@"html"] ];
+                    }
                   }
-            
+            [self startWikitudeSDKRendering];
             //[self stopWikitudeSDKRendering];
-            
-            
-            
         }
     }
     @catch (NSException *exception) {
         NSLog(@"%@ EXP", exception.reason);
     }
-    
 }
 
 -(void)startWikitudeSDKRendering{
@@ -152,24 +181,35 @@
     if( self.architectView == nil){
         return;
     }
+    NSLog(@"Start WikitudeSDK: runnning %d",[self.architectView isRunning]);
     /* To check if the WTArchitectView is currently rendering, the isRunning property can be used */
-    if ( ![self.architectView isRunning] ) {
-        
-        [self.architectView start:^(WTArchitectStartupConfiguration *configuration) {
-            
-        } completion:^(BOOL isRunning, NSError * _Nonnull error) {
-                if ( !isRunning ) {
-                               NSLog(@"WTArchitectView could not be started. Reason: %@", [error localizedDescription]);
-                           }
-                if(error){
-                    NSLog([error localizedDescription]);
-                }
-              NSLog(@"Corriendo Completion");
-        }];
 
-    }else{
-        NSLog(@"No Corriendo");
+    @try{
+        if ( ![self.architectView isRunning] ) {
+            
+            [self.architectView start:^(WTArchitectStartupConfiguration *configuration) {
+                
+            } completion:^(BOOL isRunning, NSError * _Nonnull error) {
+                    if ( !isRunning ) {
+                                NSLog(@"WTArchitectView could not be started. Reason: %@", [error localizedDescription]);
+                            }
+                    if(error){
+                        //NSLog([error localizedDescription]);
+                    }
+                //[self.architectView loadArchitectWorldFromURL:self.architectWorldUrl];
+                //[self.architectView reloadArchitectWorld];
+                NSLog(@"SDK finish Started");
+            }];
+
+        }else{
+            NSLog(@"is Already running Wiki Resume loading again the url");
+            //if(self.architectWorldUrl != nil)
+            // [self.architectView loadArchitectWorldFromURL:self.architectWorldUrl];
+        }
+    }@catch (NSException *exception) {
+        NSLog(@"%@ START SDK EXCEPTION", exception.reason);
     }
+
 }
 
 -(void)stopWikitudeSDKRendering {

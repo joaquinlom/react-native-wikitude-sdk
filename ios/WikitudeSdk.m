@@ -74,12 +74,12 @@ RCT_EXPORT_MODULE()
     [self checkCameraPermissions:^(BOOL granted) {
            self.hasCameraPermission = &(granted);
     }];
-    /*
+    
     if(_wikitudeView != nil){
         return _wikitudeView;
-    }*/
+    }
    _wikitudeView = [WikitudeView new];
-    _wikitudeView.hasCameraPermission = self.hasCameraPermission;
+   _wikitudeView.hasCameraPermission = self.hasCameraPermission;
    _wikitudeView.architectView.delegate = self;
     return _wikitudeView;
 }
@@ -184,6 +184,7 @@ RCT_EXPORT_METHOD(resumeAR:(nonnull NSNumber *)reactTag){
         //[self->_wikitudeView callJavaScript:js];
     });
     */
+    NSLog(@"Trying to call resume:");
     [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
       UIView *view = viewRegistry[reactTag];
         NSLog(@"View: Resume: %@",view);
@@ -193,7 +194,7 @@ RCT_EXPORT_METHOD(resumeAR:(nonnull NSNumber *)reactTag){
       else {
         WikitudeView *component = (WikitudeView *)view;
         NSLog(@"resume UIView", component);
-          //[component startWikitudeSDKRendering];
+        [component startWikitudeSDKRendering];
       }
     }];
 }
@@ -292,10 +293,22 @@ RCT_EXPORT_METHOD(callJavascript:(nonnull NSNumber *)reactTag js:(NSString *)js)
       else {
         NSLog(@"RCT JS: %@",js);
         WikitudeView *component = (WikitudeView *)view;
-          NSLog(@"RCT JS: %@",component);
         [component callJavaScript:js];
       }
     }];
+}
+RCT_EXPORT_METHOD(loadArchitect:(nonnull NSNumber *)reactTag  url:(NSString *)url ){
+
+        [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        UIView *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[WikitudeView class]]) {
+            RCTLog(@"expecting UIView, got: %@", view);
+        }
+        else {
+            WikitudeView *component = (WikitudeView *)view;
+            [component loadArchitect:url];
+        }
+        }];
 }
 RCT_EXPORT_METHOD(setUrl:(nonnull NSNumber *)reactTag  url:(NSString *)url ){
     /*if(_wikitudeView != nil){
@@ -313,16 +326,18 @@ RCT_EXPORT_METHOD(setUrl:(nonnull NSNumber *)reactTag  url:(NSString *)url ){
         //[self->_wikitudeView setUrl:url];
     });
     */
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
-      UIView *view = viewRegistry[reactTag];
-      if (![view isKindOfClass:[WikitudeView class]]) {
-        RCTLog(@"expecting UIView, got: %@", view);
-      }
-      else {
-        WikitudeView *component = (WikitudeView *)view;
-        [component setUrl:url];
-      }
-    }];
+    //dispatch_async(dispatch_get_main_queue(), ^{
+        [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        UIView *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[WikitudeView class]]) {
+            RCTLog(@"expecting UIView, got: %@", view);
+        }
+        else {
+            WikitudeView *component = (WikitudeView *)view;
+            [component setUrl:url];
+        }
+        }];
+    //});
 }
 RCT_EXPORT_METHOD(injectLocation:(nonnull NSNumber *)reactTag latitude:(double *)latitude longitude:(double *)longitude){
      /*

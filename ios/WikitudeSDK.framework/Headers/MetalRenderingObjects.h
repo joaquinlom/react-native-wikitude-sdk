@@ -16,14 +16,11 @@
 #import <Metal/MTLRenderCommandEncoder.h>
 #import <Metal/MTLPixelFormat.h>
 
-#include "CompilerAttributes.hpp"
-
-
 namespace wikitude { namespace sdk {
     
         namespace impl {
             
-            class WT_EXPORT_API MetalRenderingObjects {
+            class MetalRenderingObjects {
             public:
                 MetalRenderingObjects(id<MTLDevice> device_, id<MTLRenderCommandEncoder> commandEncoder_, MTLPixelFormat pixelFormat_);
                 

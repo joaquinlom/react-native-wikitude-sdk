@@ -1,4 +1,4 @@
-import { NativeModules ,requireNativeComponent ,findNodeHandle,UIManager,PermissionsAndroid,Button, Platform} from 'react-native';
+import { NativeModules ,requireNativeComponent ,findNodeHandle,UIManager,PermissionsAndroid,Button, Platform,} from 'react-native';
 import React from 'react';
 const { WikitudeSdk } = NativeModules;
 import PropTypes from 'prop-types';
@@ -35,17 +35,47 @@ class WikitudeView extends React.Component {
           console.warn(err);
         }
       }
-      //console.log("didmount Wikitude SDK index.js")
+      console.log("didmount Wikitude SDK index.js")
+      //Sometimes the resume is not calling because the references is wrong
       //this.resumeRendering();
+      if(this.props.isPOI && Platform.OS !== 'android'){
+        this.resumeRendering();
+      }else{
+        this.resumeRendering();
+      }
     }
+    /*
+    componentWillMount(){
+      console.log("component will mount")
+      //this.resumeRendering();
+      
+    }
+    */
     componentWillUnmount(){
-      console.log("Unmounting SDK index.js")
-      this.stopRendering();
+      console.log("componentWillUnmount")
+      //this.stopRendering();
+      if(this.props.isPOI && Platform.OS !== 'android'){
+        this.stopRendering();
+      }
     }
     componentDidUpdate(){
-      console.log("resume Wikitude SDK index.js")
+      console.log("ComponentDidUpdate")
+      console.log("Value of URL: ",this.props.url)
       //this.resumeRendering();
     }
+    /*
+    shouldComponentUpdate(nextProps,nextState){
+      
+      if(nextProps.url != this.props.url || nextProps.licenseKey != this.props.licenseKey){
+        console.log("shouldComponentUpdate: calling resumeRendering")
+        //this.resumeRendering();
+      }else{
+      }
+      //return nextProps.url != this.props.url || nextProps.licenseKey != this.props.licenseKey || nextProps.hasCameraPermissions != this.props.hasCameraPermissions ;
+    }
+    */
+    
+    
     requestPermission = function(){
       if(Platform.OS === 'android'){
         try {
@@ -188,7 +218,6 @@ class WikitudeView extends React.Component {
         if (!this.props.onJsonReceived) {
           return;
         }
-    
         // process raw event...
         this.props.onJsonReceived(event.nativeEvent);
       }
@@ -197,6 +226,13 @@ class WikitudeView extends React.Component {
               return;
           }
           this.props.onFinishLoading(event.nativeEvent);
+
+          if(Platform.OS == 'android'){
+
+          }else{
+            this.resumeRendering();
+          }
+          
       }  
     onFailLoading = (event)=>{
           if(!this.props.onFailLoading){
@@ -267,6 +303,7 @@ class WikitudeView extends React.Component {
     onFinishLoading:PropTypes.func,
     onFailLoading:PropTypes.func,
     onScreenCaptured:PropTypes.func,
+    isPOI: PropTypes.bool
   };
   
 var WKTView = requireNativeComponent('RNWikitude', WikitudeView);

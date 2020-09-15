@@ -38,6 +38,7 @@ import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.joaquinlom.wikitude.JsonConvert;
 import com.facebook.react.views.image.ReactImageView;
 import com.wikitude.architect.ArchitectJavaScriptInterfaceListener;
 import com.wikitude.architect.ArchitectStartupConfiguration;
@@ -245,8 +246,8 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
 
     @ReactProp(name = "url")
     public void setUrl(WikitudeView view, String url) {
-      Log.d(TAG,"Setting url:"+url);
-      view.setUrl(url);
+            Log.d(TAG,"Setting url:"+url);
+            view.setUrl(url);
     }
 
     @ReactProp(name = "licenseKey")
@@ -363,10 +364,25 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
     @Override
     public void onJSONObjectReceived(JSONObject jsonObject) {
         Log.d("Wikitude onJsonReceived","jsonObject receive");
+
+        WritableMap map;
+        try {
+            map = JsonConvert.jsonToReact(jsonObject);
+
+            ReactContext reactContext = this.ctx;
+            reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+                    this.wikitude.getId(),
+                    "onJsonReceived",
+                    map);
+        }catch(org.json.JSONException ex){
+            System.out.println("Exception: " + ex);
+        }
+
+        
+
+        /*
         WritableMap event = Arguments.createMap();
-
         Iterator<String> keys = jsonObject.keys();
-
         while(keys.hasNext()) {
             String key = keys.next();
             String value = null;
@@ -374,6 +390,7 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
                 value = (String)jsonObject.get(key);
                 event.putString(key,value);
             } catch (JSONException e) {
+                Log.d("Wikitude","Error en JSON");
                 e.printStackTrace();
             }
 
@@ -384,6 +401,7 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
                 this.wikitude.getId(),
                 "onJsonReceived",
                 event);
+        */
     }
 
     @Override
@@ -492,12 +510,15 @@ class WikitudeView extends ArchitectView{
     }
     public void setUrl(String newUrl){
         if(isUrl(newUrl)){
+            Log.d(TAG,"Es Web URL");
             this.url = newUrl;
         }else{
+            Log.d(TAG,"Es local URL");
             this.url = newUrl+".html";
         }
-        Log.d(TAG,this.url);
+        Log.d(TAG,"Setting URL Again");
         //this.url = newUrl;
+        
         this.loadWorld();
         //createWikitude();
     }
@@ -516,12 +537,14 @@ class WikitudeView extends ArchitectView{
         this.captureScreen(insideMode,ctxManager);
     }
     public void loadWorld(){
+        Log.d(TAG,this.url);
         try{
             Log.d(TAG,this.url);
             this.load(this.url);
         }catch(IOException e){
             Log.e(TAG,e.getMessage());
         }
+        
     }
     public void setLat(Double lat){
         this.lat = lat;

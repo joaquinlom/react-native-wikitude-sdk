@@ -11,8 +11,6 @@
 
 #ifdef __cplusplus
 
-#include "CompilerAttributes.hpp"
-
 
 namespace wikitude { namespace sdk {
 
@@ -26,7 +24,7 @@ namespace wikitude { namespace sdk {
          *  @brief A class that represents instant targets that are found by an instant tracker.
          */
         class Matrix4;
-        class WT_EXPORT_API InstantTarget {
+        class InstantTarget {
         public:
             virtual ~InstantTarget() = default;
 

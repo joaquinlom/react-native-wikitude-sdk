@@ -16,7 +16,6 @@
 #include <functional>
 
 #include "CameraFrame.hpp"
-#include "CompilerAttributes.hpp"
 
 
 namespace wikitude { namespace sdk {
@@ -25,7 +24,7 @@ namespace wikitude { namespace sdk {
 
 
         class CameraFramePlane;
-        class WT_EXPORT_API ManagedCameraFrame {
+        class ManagedCameraFrame {
         public:
             ManagedCameraFrame(); /* delete me because I can’t be constructed without a sdk::CameraFrame */
 

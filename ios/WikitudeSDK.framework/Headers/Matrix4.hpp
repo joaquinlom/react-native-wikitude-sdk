@@ -12,8 +12,6 @@
 #include <iostream>
 #include <iomanip>
 
-#include "CompilerAttributes.hpp"
-
 
 namespace wikitude { namespace sdk {
 
@@ -22,7 +20,7 @@ namespace wikitude { namespace sdk {
         /**
         * A four by four, float based matrix providing methods for spatial transformations in three dimensions. The matrix data is arranged in column-major order.
         */
-        class WT_EXPORT_API Matrix4
+        class Matrix4
         {
         public:
             static constexpr float EPSILON = 0.00001f;
@@ -354,7 +352,7 @@ namespace wikitude { namespace sdk {
             *
             * @return The negated matrix.
             */
-            friend WT_EXPORT_API Matrix4 operator-(const Matrix4& m);
+            friend Matrix4 operator-(const Matrix4& m);
 
             /**
             * Multiplies a scalar and a matrix.
@@ -364,7 +362,7 @@ namespace wikitude { namespace sdk {
             *
             * @return The product of the scalar and the matrix.
             */
-            friend WT_EXPORT_API Matrix4 operator*(float scalar, const Matrix4& m);
+            friend Matrix4 operator*(float scalar, const Matrix4& m);
 
             /**
             * A stream operator to allow convenient printing of the matrix content.
@@ -374,7 +372,7 @@ namespace wikitude { namespace sdk {
             *
             * @return The reference to the resulting stream.
             */
-            friend WT_EXPORT_API std::ostream& operator<<(std::ostream& os, const Matrix4& m);
+            friend std::ostream& operator<<(std::ostream& os, const Matrix4& m);
 
         private:
             float getCofactor(float m0, float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8);

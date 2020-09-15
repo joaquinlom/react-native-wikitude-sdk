@@ -12,7 +12,6 @@
 #ifdef __cplusplus
 
 #include <memory>
-#include "CompilerAttributes.hpp"
 
 
 namespace wikitude { namespace sdk {
@@ -20,7 +19,7 @@ namespace wikitude { namespace sdk {
     namespace impl {
 
 
-        struct WT_EXPORT_API DeviceMotionData {
+        struct DeviceMotionData {
             DeviceMotionData(std::shared_ptr<float> motion_)
             :
             _motion(std::move(motion_))
@@ -29,7 +28,7 @@ namespace wikitude { namespace sdk {
             std::shared_ptr<float> _motion;
         };
 
-        typedef struct WT_EXPORT_API AccelerationData {
+        typedef struct AccelerationData {
             AccelerationData(double x_, double y_, double z_)
             :
             _x(x_),
@@ -42,7 +41,7 @@ namespace wikitude { namespace sdk {
             double  _z;
         } AccelerationData;
 
-        typedef struct WT_EXPORT_API HeadingData {
+        typedef struct HeadingData {
             HeadingData(double x_, double y_, double z_, double trueHeading_, double magneticHeading_)
             :
             _x(x_),
@@ -65,7 +64,7 @@ namespace wikitude { namespace sdk {
         } HeadingData;
 
 
-        class WT_EXPORT_API SensorEvent {
+        class SensorEvent {
         public:
             enum SensorEventType {
                 DeviceRotation,
@@ -85,7 +84,7 @@ namespace wikitude { namespace sdk {
         };
 
 
-        class WT_EXPORT_API DeviceRotationEvent : public SensorEvent {
+        class DeviceRotationEvent : public SensorEvent {
         public:
             DeviceRotationEvent(DeviceMotionData rotationData_);
 
@@ -95,7 +94,7 @@ namespace wikitude { namespace sdk {
             DeviceMotionData            _rotationData;
         };
 
-        class WT_EXPORT_API DeviceOrientationEvent : public SensorEvent {
+        class DeviceOrientationEvent : public SensorEvent {
         public:
             DeviceOrientationEvent(DeviceMotionData orientationData_);
 
@@ -104,7 +103,7 @@ namespace wikitude { namespace sdk {
             DeviceMotionData            _orientationData;
         };
 
-        class WT_EXPORT_API AccelerationEvent : public SensorEvent {
+        class AccelerationEvent : public SensorEvent {
         public:
             AccelerationEvent(AccelerationData acceleration_);
 
@@ -114,7 +113,7 @@ namespace wikitude { namespace sdk {
             AccelerationData     _acceleration;
         };
 
-        class WT_EXPORT_API HeadingEvent : public SensorEvent {
+        class HeadingEvent : public SensorEvent {
         public:
             HeadingEvent(HeadingData heading_);
 

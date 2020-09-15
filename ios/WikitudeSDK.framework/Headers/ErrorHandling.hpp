@@ -20,10 +20,10 @@ namespace wikitude { namespace sdk {
     namespace impl {
 
 
-        struct WT_EXPORT_API CallStatus {
+        struct CallStatus {
         public:
             static CallStatus Success() {
-                return {true, Error::NoError()};
+                return {true, {0, "", ""}};
             }
             
         public:
@@ -43,10 +43,10 @@ namespace wikitude { namespace sdk {
 
 
         template <typename T>
-        struct WT_EXPORT_API CallValue {
+        struct CallValue {
         public:
             static CallValue<T> SuccessCallValue(T value_) {
-                return {value_, {true, Error::NoError()}};
+                return {value_, {true, {0, "", ""}}};
             }
 
         public:

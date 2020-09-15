@@ -13,8 +13,6 @@
 
 #include <cstdint>
 
-#include "CompilerAttributes.hpp"
-
 
 namespace wikitude { namespace sdk {
 
@@ -24,7 +22,7 @@ namespace wikitude { namespace sdk {
         /** @struct Timestamp
          * @brief Timestamp represents a single point in time. _value/_timescale = seconds.
          */
-        struct WT_EXPORT_API Timestamp {
+        struct Timestamp {
         public:
             std::int64_t    _value = 0;
             std::int32_t    _timescale = 0;
