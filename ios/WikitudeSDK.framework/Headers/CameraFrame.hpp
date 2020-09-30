@@ -21,10 +21,6 @@
 #include "DepthDataFormat.hpp"
 #include "CameraFramePlane.hpp"
 #include "Matrix4.hpp"
-<<<<<<< HEAD
-=======
-#include "CompilerAttributes.hpp"
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
 
 namespace wikitude { namespace sdk {
@@ -34,11 +30,7 @@ namespace wikitude { namespace sdk {
         /** @class DepthCameraFrameMetadata
          *  @brief A class that encapsulates additional information about depth camera frames.
          */
-<<<<<<< HEAD
         class DepthCameraFrameMetadata {
-=======
-        class WT_EXPORT_API DepthCameraFrameMetadata {
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         public:
             DepthCameraFrameMetadata(float horizontalFov_, sdk::Size<int> pixelSize_, unsigned int dataSize_, DepthDataFormat depthDataFormat_, bool inverted_, std::int32_t timestampTimescale_);
 
@@ -82,11 +74,7 @@ namespace wikitude { namespace sdk {
             Atan = 3,
         };
 
-<<<<<<< HEAD
         class IntrinsicsCalibration {
-=======
-        class WT_EXPORT_API IntrinsicsCalibration {
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         public:
             IntrinsicsCalibration(DistortionMode distortionMode_, Point<double> principalPoint_, Point<double> focalLength_, const std::vector<double>& distortion_);
 
@@ -105,11 +93,7 @@ namespace wikitude { namespace sdk {
         /** @class ColorCameraFrameMetadata
          *  @brief A class that encapsulates additional information about color camera frames.
          */
-<<<<<<< HEAD
         class ColorCameraFrameMetadata {
-=======
-        class WT_EXPORT_API ColorCameraFrameMetadata {
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         public:
             ColorCameraFrameMetadata(float horizontalFov_, sdk::Size<int> pixelSize_, CameraPosition cameraPosition_, ColorSpace frameColorSpace_, std::int32_t timestampTimescale_);
 
@@ -157,11 +141,7 @@ namespace wikitude { namespace sdk {
         /** @class CameraFrame
          *  @brief A class that color and depth frames, along with their metadata and optional pose. The CameraFrame class doesn't copy or retain the color and depth data in any way.
          */
-<<<<<<< HEAD
         class CameraFrame {
-=======
-        class WT_EXPORT_API CameraFrame {
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         public:
             CameraFrame(long id_, std::int64_t colorTimestamp_, ColorCameraFrameMetadata colorMetadata_, const std::vector<CameraFramePlane>& colorData_);
             CameraFrame(long id_, std::int64_t colorTimestamp_, ColorCameraFrameMetadata colorMetadata_, const std::vector<CameraFramePlane>& colorData_, const Matrix4& pose_);

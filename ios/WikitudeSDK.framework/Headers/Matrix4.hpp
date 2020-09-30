@@ -12,11 +12,6 @@
 #include <iostream>
 #include <iomanip>
 
-<<<<<<< HEAD
-=======
-#include "CompilerAttributes.hpp"
-
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
 namespace wikitude { namespace sdk {
 
@@ -25,11 +20,7 @@ namespace wikitude { namespace sdk {
         /**
         * A four by four, float based matrix providing methods for spatial transformations in three dimensions. The matrix data is arranged in column-major order.
         */
-<<<<<<< HEAD
         class Matrix4
-=======
-        class WT_EXPORT_API Matrix4
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
         {
         public:
             static constexpr float EPSILON = 0.00001f;
@@ -361,11 +352,7 @@ namespace wikitude { namespace sdk {
             *
             * @return The negated matrix.
             */
-<<<<<<< HEAD
             friend Matrix4 operator-(const Matrix4& m);
-=======
-            friend WT_EXPORT_API Matrix4 operator-(const Matrix4& m);
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
             /**
             * Multiplies a scalar and a matrix.
@@ -375,11 +362,7 @@ namespace wikitude { namespace sdk {
             *
             * @return The product of the scalar and the matrix.
             */
-<<<<<<< HEAD
             friend Matrix4 operator*(float scalar, const Matrix4& m);
-=======
-            friend WT_EXPORT_API Matrix4 operator*(float scalar, const Matrix4& m);
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
             /**
             * A stream operator to allow convenient printing of the matrix content.
@@ -389,11 +372,7 @@ namespace wikitude { namespace sdk {
             *
             * @return The reference to the resulting stream.
             */
-<<<<<<< HEAD
             friend std::ostream& operator<<(std::ostream& os, const Matrix4& m);
-=======
-            friend WT_EXPORT_API std::ostream& operator<<(std::ostream& os, const Matrix4& m);
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
         private:
             float getCofactor(float m0, float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8);

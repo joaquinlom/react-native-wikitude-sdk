@@ -10,21 +10,12 @@
 
 #ifdef __cplusplus
 
-<<<<<<< HEAD
-=======
-#include "CompilerAttributes.hpp"
-
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 
 namespace wikitude { namespace sdk {
     
     namespace impl {
         
-<<<<<<< HEAD
         enum class RenderingAPI {
-=======
-        enum class WT_EXPORT_API RenderingAPI {
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
             OpenGL_ES_2,
             OpenGL_ES_3,
             Metal,

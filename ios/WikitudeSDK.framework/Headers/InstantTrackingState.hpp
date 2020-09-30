@@ -11,12 +11,6 @@
 
 #ifdef __cplusplus
 
-<<<<<<< HEAD
-=======
-#include "CompilerAttributes.hpp"
-
-
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
 namespace wikitude { namespace sdk {
     
     namespace impl {
@@ -28,11 +22,7 @@ namespace wikitude { namespace sdk {
         /** @enum InstantTrackingState
          *  @brief An enum indicating the current state in which an instant tracker is.
          */
-<<<<<<< HEAD
         enum class InstantTrackingState {
-=======
-        enum class WT_EXPORT_API InstantTrackingState {
->>>>>>> 7a80d517418492d323a2b0529e1da11bec307318
             /** @brief Initializing indicates that the instant tracker is in initialization state, which allows the origin of the tracking scene to be set, as well as the device height above ground.
              */
             Initializing,
