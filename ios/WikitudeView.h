@@ -25,7 +25,7 @@
     -(void)startWikitudeSDKRendering;
     -(void)setUrl:(NSString *)url;
     -(void)loadArchitect:(NSString *)url;
-    -(void)injectLocationWithAltitude:(double *)latitude longitude:(double *)longitude;
+    -(void)injectLocationWithLatitude:(double)latitude longitude:(double)longitude;
     -(void)callJavaScript:(NSString *)js;
     -(void)stopWikitudeSDKRendering;
     -(void)captureScreen:(BOOL *)mode;

@@ -68,6 +68,7 @@
             }
         }
     });*/
+
     if(self.architectView != nil){
         if([self.architectView isRunning] == NO){
                     if(self.hasCameraPermission)
@@ -221,9 +222,19 @@
     }
 }
 
--(void)injectLocationWithLatitude:(double *)latitude longitude:(double *)longitude{
-    if(self.architectView != nil)
-        [self.architectView injectLocationWithLatitude:*latitude longitude:*longitude accuracy:100.0];
+-(void)injectLocationWithLatitude:(double)latitude longitude:(double)longitude{
+     if(self.architectView == nil){
+        return;
+    }
+    if ([self.architectView isRunning] ){
+        [self.architectView setUseInjectedLocation:YES];
+
+        CLLocationDegrees latitudeDegrees = latitude;
+        CLLocationDegrees longitudeDegrees = longitude;
+        CLLocationAccuracy accuracy = 100.0;
+        [self.architectView injectLocationWithLatitude:latitudeDegrees longitude:longitudeDegrees accuracy:accuracy];
+    }
+        
 }
 -(void)captureScreen:(BOOL *)mode{
         NSDictionary* info = @{};

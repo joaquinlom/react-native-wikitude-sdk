@@ -339,7 +339,7 @@ RCT_EXPORT_METHOD(setUrl:(nonnull NSNumber *)reactTag  url:(NSString *)url ){
         }];
     //});
 }
-RCT_EXPORT_METHOD(injectLocation:(nonnull NSNumber *)reactTag latitude:(double *)latitude longitude:(double *)longitude){
+RCT_EXPORT_METHOD(injectLocation:(nonnull NSNumber *)reactTag latitude:(double)latitude longitude:(double)longitude){
      /*
     WikitudeView *component = (WikitudeView *)[self.bridge.uiManager viewForReactTag:reactTag];
     //if(component != nil){
@@ -351,9 +351,9 @@ RCT_EXPORT_METHOD(injectLocation:(nonnull NSNumber *)reactTag latitude:(double *
       if (![view isKindOfClass:[WikitudeView class]]) {
         RCTLog(@"expecting UIView, got: %@", view);
       }
-      else {
+      else {	
         WikitudeView *component = (WikitudeView *)view;
-        [component injectLocationWithAltitude:latitude longitude:longitude];
+        [component injectLocationWithLatitude:latitude longitude:longitude];
       }
     }];
 }
