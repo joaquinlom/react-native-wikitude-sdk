@@ -447,7 +447,7 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
                 root.callJavascript(args.getString(0));
                 break;
             case COMMAND_INJECT_LOCATION:
-                root.setLocation(args.getDouble(0),args.getDouble(0),100f);
+                root.setLocation(args.getDouble(0),args.getDouble(1),100f);
                 break;
             case COMMAND_RESUME_AR:
                 //without thread handling
