@@ -18,20 +18,20 @@ After that completes, you will need to do additional steps for each platform you
 
 1. Unfortunately the gradle system does not seem to allow [sub-linking aar files](https://issuetracker.google.com/issues/36971586). To get around this you will have to install the `wikitudesdk` folder manually into each project you plan to use this module with. 
 
-	Copy the `wikitudesdk` folder from the `node-modules/react-native-wikitude/android` folder into your project's `android` folder: 
+	Copy the `wikitudesdk` folder from the `node-modules/react-native-wikitude-sdk/android` folder into your project's `android` folder: 
 
 	On Mac / Linux: 
 	
 	```bash
 	cd YourReactNativeProject
-	cp -R ./node_modules/react-native-wikitude/android/wikitudesdk ./android/wikitudesdk
+	cp -R ./node_modules/react-native-wikitude-sdk/android/wikitudesdk ./android/wikitudesdk
 	```
 	
 	or on Windows:
 	
 	```dos
 	cd YourReactNativeProject
-	xcopy node_modules\react-native-wikitude\android\wikitudesdk android\wikitudesdk /E
+	xcopy node_modules\react-native-wikitude-sdk\android\wikitudesdk android\wikitudesdk /E
 	```
 
 2. And then in your `android/settings.gradle` file, modify the existing `include ':react-native-wikitude'` line to also include the `wikitudesdk`:
