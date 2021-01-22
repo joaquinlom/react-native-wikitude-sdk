@@ -134,11 +134,12 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
 
         this.activity  = context.getCurrentActivity();
         wikitude = new WikitudeView(activity,context,this.licenseKey,this);
+        
         this.ctx = context;
         //architectView = wikitude;
         wikitude.addArchitectJavaScriptInterfaceListener(this);
         //wikitude.registerWorldLoadedListener(this);
-
+        wikitude.postCreate();
         context.addActivityEventListener(mActivityEventListener);
         context.addLifecycleEventListener(mLifeEventListener);
 

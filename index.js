@@ -37,12 +37,12 @@ class WikitudeView extends React.Component {
       }
       console.log("didmount Wikitude SDK index.js")
       //Sometimes the resume is not calling because the references is wrong
-      //this.resumeRendering();
-      if(this.props.isPOI && Platform.OS !== 'android'){
+      this.resumeRendering();
+      /*if(this.props.isPOI && Platform.OS !== 'android'){
         this.resumeRendering();
       }else{
         this.resumeRendering();
-      }
+      }*/
     }
     /*
     componentWillMount(){
@@ -53,10 +53,10 @@ class WikitudeView extends React.Component {
     */
     componentWillUnmount(){
       console.log("componentWillUnmount")
-      //this.stopRendering();
-      if(this.props.isPOI && Platform.OS !== 'android'){
+      this.stopRendering();
+      /*if(this.props.isPOI && Platform.OS !== 'android'){
         this.stopRendering();
-      }
+      }*/
     }
     componentDidUpdate(){
       console.log("ComponentDidUpdate")
@@ -196,6 +196,7 @@ class WikitudeView extends React.Component {
         }
     }
     resumeRendering = function(){
+      console.log('Calling resumeRendering');
       if(Platform.OS === "android"){
         if(this.state.hasCameraPermissions){
           UIManager.dispatchViewManagerCommand(
@@ -311,5 +312,3 @@ var WKTView = requireNativeComponent('RNWikitude', WikitudeView);
 module.exports = { 
     WikitudeView
   };
-  
-  

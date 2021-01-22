@@ -178,5 +178,7 @@ You can check this example app [Github](https://github.com/joaquinlom/react-nati
 - This is work in progress, it's not ready for production, use it as you own risk.
 
 ## ChangeLog
+- 1.0.1
+	Test the Module agains Wikitude 9.5, improve rendering on IOS and fix an issue when changing architect url
 - 1.0.0
 	First Commit

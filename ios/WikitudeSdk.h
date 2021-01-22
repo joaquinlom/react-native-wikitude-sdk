@@ -17,11 +17,6 @@
 @class WikitudeView;
 @interface RNWikitude : RCTViewManager <RCTBridgeModule>
 
-//@property (nonatomic, strong) NSDictionary *defaultOptions;
-//@property (nonatomic, retain) NSMutableDictionary *options;
-//@property (nonatomic, strong) RCTPromiseResolveBlock resolve;
 @property (nonatomic, strong) RCTPromiseRejectBlock reject;
-@property (nonatomic, strong) WikitudeView  *wikitudeView;
-@property  BOOL  *hasCameraPermission;
 
 @end
