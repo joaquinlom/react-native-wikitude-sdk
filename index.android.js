@@ -23,7 +23,8 @@ class WikitudeView extends React.Component {
             }
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            this.setState({hasCameraPermissions: true})
+            this.setState({hasCameraPermissions: true,isRunning:true});
+            
           } else {
             this.setState({hasCameraPermissions: false})
           }
@@ -32,8 +33,9 @@ class WikitudeView extends React.Component {
         }
       }
       console.log("didmount Wikitude SDK index.js")
+      
       //Sometimes the resume is not calling because the references is wrong
-      this.resumeRendering();
+      //this.resumeRendering();
       /*if(this.props.isPOI && Platform.OS !== 'android'){
         this.resumeRendering();
       }else{
@@ -49,7 +51,8 @@ class WikitudeView extends React.Component {
     */
     componentWillUnmount(){
       console.log("componentWillUnmount")
-      this.stopRendering();
+      this.setState({isRunning:false});
+      //this.stopRendering();
       /*if(this.props.isPOI && Platform.OS !== 'android'){
         this.stopRendering();
       }*/
@@ -87,7 +90,7 @@ class WikitudeView extends React.Component {
             }
           ).then(granted=>{
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-              this.setState({hasCameraPermissions: true})
+              this.setState({hasCameraPermissions: true,isRunning:true});
             } else {
               this.setState({hasCameraPermissions: false})
             }
@@ -269,6 +272,7 @@ class WikitudeView extends React.Component {
       if(Platform.OS == 'android'){
         if(hasPermission){
           return <WKTView ref="wikitudeView" {...this.props}
+              isRunning={this.state.isRunning}
               onJsonReceived={this.onJsonReceived} 
               onFailLoading={this.onFailLoading}
               onFinishLoading={this.onFinishLoading}
@@ -302,7 +306,11 @@ class WikitudeView extends React.Component {
     isPOI: PropTypes.bool
   };
   
-var WKTView = requireNativeComponent('RNWikitude', WikitudeView);
+var WKTView = requireNativeComponent('RNWikitude', WikitudeView, {
+        nativeOnly: {
+          'isRunning': true,
+        }
+      });
 
 module.exports = { 
     WikitudeView

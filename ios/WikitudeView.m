@@ -8,7 +8,7 @@
 #import <React/UIView+React.h>
 
 
-@interface WikitudeView () <WTArchitectViewDelegate, WTArchitectViewDebugDelegate>
+@interface WikitudeView () <WTArchitectViewDelegate>
 @property (nonatomic, weak) RCTBridge *bridge;
 @property (nonatomic, strong) dispatch_queue_t sessionQueue;
 @end
@@ -344,14 +344,9 @@
     
 }
 
-/*Debug*/
-- (void)architectView:(WTArchitectView *)architectView didEncounterInternalError:(NSError *)error{
- NSLog(@"didEncounterInternalError %@",[error localizedDescription]);
-}
 
-- (void)architectView:(WTArchitectView *)architectView didEncounterInternalWarning:(WTWarning *)warning{
-NSLog(@"didEncounterInternalWarning %@",warning );
-}
+
+
 
 
 @end

@@ -1,10 +1,3 @@
-//
-//  RNWikitude.m
-//  RNWikitude
-//
-//  Created by Brave Digital Machine 7 on 2017/09/05.
-//  Copyright © 2017 Brave Digital. All rights reserved.
-//
 
 #import "WikitudeSdk.h"
 // import RCTLog
