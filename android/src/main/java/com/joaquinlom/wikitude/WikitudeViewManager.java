@@ -21,6 +21,7 @@ import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.content.res.AssetManager;
 import java.net.URL;
 import java.io.ByteArrayOutputStream;
 import com.facebook.react.bridge.ActivityEventListener;
@@ -48,12 +49,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Map;
 
-public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implements ArchitectJavaScriptInterfaceListener, ArchitectView.ArchitectWorldLoadedListener, ArchitectView.CaptureScreenCallback {
-
-
+public class WikitudeViewManager extends SimpleViewManager<WikitudeView> implements ArchitectJavaScriptInterfaceListener, ArchitectView.ArchitectWorldLoadedListener, ArchitectView.CaptureScreenCallback {
     //Commands
     public static final int COMMAND_SET_URL = 1;
     public static final int COMMAND_CALL_JAVASCRIPT = 2;
@@ -88,28 +88,29 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
         public void onHostResume() {
             if(wikitude != null){
                 Log.d(TAG,"onResume Wikitude");
-                wikitude.onResume();
-                wikitude.loadWorld();
-                firstTime = false;
+                //wikitude.loadWorld();
+                //wikitude.onResume();
+                //wikitude.loadWorld();
+                //it works like this
             }
         }
 
         @Override
         public void onHostPause() {
-            Log.d(TAG,"onPause");
             if(wikitude != null)
             {
-                wikitude.onPause();
+                Log.d(TAG,"onPause Wikitude");
+                //wikitude.onPause();
             }
 
         }
 
         @Override
         public void onHostDestroy() {
-            Log.d(TAG,"onDestroy");
             if(wikitude != null){
-               wikitude.clearCache();
-               wikitude.onDestroy();
+                Log.d(TAG,"onDestroy Wikitude");
+                //wikitude.clearCache();
+                //wikitude.onDestroy();
             }
 
         }
@@ -139,8 +140,8 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
         //architectView = wikitude;
         wikitude.addArchitectJavaScriptInterfaceListener(this);
         //wikitude.registerWorldLoadedListener(this);
-        wikitude.postCreate();
-        context.addActivityEventListener(mActivityEventListener);
+        //wikitude.onPostCreate();
+        //context.addActivityEventListener(mActivityEventListener);
         context.addLifecycleEventListener(mLifeEventListener);
 
         /*
@@ -171,9 +172,6 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
     public WikitudeView getWikitudeView(){
         return this.wikitude;
     }
-    public void setUrlFromModule(String url){
-
-    }
     @ReactMethod
     public void setNewUrl(String url){
         if(this.wikitude != null){
@@ -185,7 +183,7 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
                     public void run() {
                             Log.d(TAG,"Changge url");
                             wikitude.loadWorld();
-                    } // This is your code
+                    }
                 };
                 mainHandler.post(myRunnable);
             }
@@ -199,17 +197,12 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
                 wikitude.setLat(lat);
                 wikitude.setLng(lng);
                 Handler mainHandler = new Handler(this.activity.getMainLooper());
-    
                 Runnable myRunnable = new Runnable() {
                     @Override
                     public void run() {
-    
-    
                             Log.d(TAG,"Change location");
                             wikitude.updateLocation();
-    
-    
-                    } // This is your code
+                    }
                 };
                 mainHandler.post(myRunnable);
             }
@@ -225,21 +218,19 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
                 Runnable myRunnable = new Runnable() {
                     @Override
                     public void run() {
-    
-    
                             Log.d(TAG,"Call JS");
                             wikitude.callJS();
-    
-    
-                    } // This is your code
+                    }
                 };
                 mainHandler.post(myRunnable);
             }
-            
         }
     }
     
-
+    @ReactProp(name = "isRunning")
+    public void setIsRunning(WikitudeView view, boolean isRunning){
+        Log.d(TAG,"set Is running"+isRunning);
+    }
     @ReactProp(name = "feature")
     public void setFeature(WikitudeView view, int feature){
 
@@ -254,27 +245,23 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
     @ReactProp(name = "licenseKey")
     public void setLicenseKey(WikitudeView view,String licenseKey) {
         Log.d(TAG,"Setting License"+licenseKey);
-        //this.wikitude.setLicenseKey(licenseKey);
         view.setLicenseKey(licenseKey);
-        // startUpConfig.setLicenseKey( this.licenseKey);
     }
-
+    @Override
+    public void onDropViewInstance(WikitudeView view) {
+        super.onDropViewInstance(view);
+        Log.d(TAG,"Dropping View");
+        try{
+            view.onPause();
+            view.clearCache();
+            view.onDestroy();
+        }catch(Exception e){
+            Log.d(TAG,"Error");
+        }
+    }
     public void resumeAR(){
-        /*if(wikitude != null){
-            Thread webThread = getThreadByName("mqt_native_modules");
-            if(webThread != null){
-                Runnable myRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        wikitude.onResume();
-                    } // This is your code
-                };
-                //webThread.post(webThread);
-            }
-        }*/
         if(this.activity != null ){
-            Handler mainHandler = new Handler(this.activity.getMainLooper());
-
+        Handler mainHandler = new Handler(this.activity.getMainLooper());
             Runnable myRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -282,12 +269,12 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
                         wikitude.loadWorld();
                         Log.d(TAG,"On resume en handler");
                         wikitude.onResume();
-
-
-                } // This is your code
+                        wikitude.loadWorld();
+                }
             };
             mainHandler.post(myRunnable);
         }
+        
 
     }
     public Thread getThreadByName(String threadName) {
@@ -297,25 +284,22 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
         return null;
     }
     public void stopAR(){
+        //wikitude.onPause();
         if(wikitude != null){
             if(this.activity != null ){
                 Handler mainHandler = new Handler(this.activity.getMainLooper());
-
                 Runnable myRunnable = new Runnable() {
                     @Override
                     public void run() {
-
-
                         Log.d(TAG,"OnPause en handler");
                         wikitude.clearCache();
                         wikitude.onPause();
-
-
-                    } // This is your code
+                    }
                 };
                 mainHandler.post(myRunnable);
             }
         }
+        
     }
 
     @Override
@@ -354,8 +338,6 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
         event.putString("image",encoded);
         ReactContext reactContext = this.ctx;
         Log.d(TAG,"Screenshot capture");
-        //Log.d(TAG,"image "+encoded);
-
         reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
                 this.wikitude.getId(),
                 "onScreenCaptured",
@@ -378,31 +360,6 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
         }catch(org.json.JSONException ex){
             System.out.println("Exception: " + ex);
         }
-
-        
-
-        /*
-        WritableMap event = Arguments.createMap();
-        Iterator<String> keys = jsonObject.keys();
-        while(keys.hasNext()) {
-            String key = keys.next();
-            String value = null;
-            try {
-                value = (String)jsonObject.get(key);
-                event.putString(key,value);
-            } catch (JSONException e) {
-                Log.d("Wikitude","Error en JSON");
-                e.printStackTrace();
-            }
-
-        }
-
-        ReactContext reactContext = this.ctx;
-        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
-                this.wikitude.getId(),
-                "onJsonReceived",
-                event);
-        */
     }
 
     @Override
@@ -452,12 +409,13 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
                 break;
             case COMMAND_RESUME_AR:
                 //without thread handling
-                //root.onResume();
-                resumeAR();
+                root.onResume();
+                root.loadWorld();
+                //resumeAR();
                 break;
             case COMMAND_STOP_AR:
-                //root.onPause();
-                stopAR();
+                root.onPause();
+                //stopAR();
                 break;
             case COMMAND_CAPTURE_SCREEN:
                 root.captureScreen(args.getBoolean(0));
@@ -477,6 +435,7 @@ class WikitudeView extends ArchitectView{
     Double lng = 0.0;
     String TAG = "WikitudeView";
     WikitudeViewManager ctxManager;
+
     private ArchitectStartupConfiguration startUpConfig = new ArchitectStartupConfiguration();
 
     public WikitudeView(Activity activity){
@@ -487,18 +446,14 @@ class WikitudeView extends ArchitectView{
         this.activity = activity;
         this.licenseKey = licenseKey;
         this.ctxManager = manager;
-        Log.d(TAG,"Creating Wikitude view");
     }
 
     public void createWikitude(){
+        Log.d(TAG,"Creating Wikitude view");
         this.onCreate(startUpConfig);
         this.onPostCreate();
         this.registerWorldLoadedListener(ctxManager);
-        try{
-            this.load(this.url);
-        }catch (IOException e){
-            Log.e(TAG,e.getMessage());
-        }
+        this.loadWorld();
     }
 
     public boolean isUrl(String url){
@@ -511,17 +466,13 @@ class WikitudeView extends ArchitectView{
     }
     public void setUrl(String newUrl){
         if(isUrl(newUrl)){
-            Log.d(TAG,"Es Web URL");
+            Log.d(TAG,"Web URL");
             this.url = newUrl;
         }else{
-            Log.d(TAG,"Es local URL");
+            Log.d(TAG,"Local URL");
             this.url = newUrl+".html";
         }
-        Log.d(TAG,"Setting URL Again");
-        //this.url = newUrl;
-        
         this.loadWorld();
-        //createWikitude();
     }
     public void setLicenseKey(String license){
         startUpConfig.setLicenseKey( license );
@@ -538,7 +489,6 @@ class WikitudeView extends ArchitectView{
         this.captureScreen(insideMode,ctxManager);
     }
     public void loadWorld(){
-        Log.d(TAG,this.url);
         try{
             Log.d(TAG,this.url);
             this.load(this.url);

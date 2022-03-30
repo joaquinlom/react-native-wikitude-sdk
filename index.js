@@ -33,7 +33,10 @@ class WikitudeView extends React.Component {
       }
       console.log("didmount Wikitude SDK index.js")
       //Sometimes the resume is not calling because the references is wrong
-      this.resumeRendering();
+
+        this.resumeRendering();
+      
+       
       /*if(this.props.isPOI && Platform.OS !== 'android'){
         this.resumeRendering();
       }else{
@@ -49,7 +52,8 @@ class WikitudeView extends React.Component {
     */
     componentWillUnmount(){
       console.log("componentWillUnmount")
-      this.stopRendering();
+        this.stopRendering();
+      
       /*if(this.props.isPOI && Platform.OS !== 'android'){
         this.stopRendering();
       }*/
@@ -225,7 +229,7 @@ class WikitudeView extends React.Component {
           this.props.onFinishLoading(event.nativeEvent);
 
           if(Platform.OS == 'android'){
-
+            //this.resumeRendering();
           }else{
             this.resumeRendering();
           }
